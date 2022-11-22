@@ -67,22 +67,27 @@ const RestaurantList=({lat,lng}:IRestaurantList)=>{
                 <motion.div 
                 ref={elementRef}
                 className=" absolute top-1/2 left-1/2 translate-x-[-50%] translate-y-[-50%] 
-                        z-10 w-2/3 h-[305px] grid grid-flow-col overflow-x-scroll gap-10">
+                        z-30 w-2/3 h-[305px] grid grid-flow-col overflow-x-scroll gap-10">
                         {
                             data&&data.map((restaurant:any,index:number)=>{
                                 return(
-                                    <div key={restaurant.place_id} className='grid borderborder-black 
-                                    w-80 h-[300px]
+                                    <div key={restaurant.place_id} 
+              
+                                    className='grid 
+                                    borderborder-black 
+                                    w-80 h-[200px]
                                     '>
-                                        <Image
-                                        src={restaurant.photos?.length>0?
-                                            `https://maps.googleapis.com/maps/api/place/photo?maxwidth=400&photo_reference=${restaurant.photos[0].photo_reference}&key=AIzaSyD7hySl2ct4VunK1C99CeZ-9ithi1dlOZY`
-                                            :'/assets/noImage.png'}
-                                        alt={restaurant.name}
-                                        width={400}
-                                        height={300}
-                                        />
-                                        <div>{restaurant.name}</div>
+                                        <div className="w-full h-[200px]" style={{position:'relative'}}>
+                                            <Image
+                                            layout="fill"
+                                            src={restaurant.photos?.length>0?
+                                                `https://maps.googleapis.com/maps/api/place/photo?maxwidth=400&photo_reference=${restaurant.photos[0].photo_reference}&key=AIzaSyD7hySl2ct4VunK1C99CeZ-9ithi1dlOZY`
+                                                :'/assets/noImage.png'}
+                                            alt={restaurant.name}
+                                            />
+                                        </div>
+            
+                                        <div className="w-full text-center">{restaurant.name}</div>
                                     </div>
                                 )
                             })
@@ -105,12 +110,8 @@ const RestaurantList=({lat,lng}:IRestaurantList)=>{
                                 restDelta: 0.001
                               }
                             }}
-                            style={{margin:'auto'}}
+                            style={{left:'50%',top:'50%',translateX:'-50%',translateY:'-50%'}}
                             className=" absolute 
-                            top-0
-                            left-0
-                            bottom-0
-                            right-0
                             w-[400px]
                             h-[500px]
                             z-50">
@@ -122,6 +123,9 @@ const RestaurantList=({lat,lng}:IRestaurantList)=>{
                                         src={data[randomKey].photos?.length>0?
                                             `https://maps.googleapis.com/maps/api/place/photo?maxwidth=400&photo_reference=${data[randomKey].photos[0].photo_reference}&key=AIzaSyD7hySl2ct4VunK1C99CeZ-9ithi1dlOZY`
                                             :'/assets/noImage.png'}/>
+                               <div className=" font-semibold text-center text-white">
+                                    {data[randomKey].vicinity}
+                                </div>
                                 <div className=" font-semibold text-center text-white">
                                     {data[randomKey].name}
                                 </div>
