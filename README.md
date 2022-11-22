@@ -1,34 +1,52 @@
-This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
+## TodoList
 
-## Getting Started
+### 1주차
+1. 내 위치 기준 원호를 그려서 반경 500m 의 원 드로잉 (반투명) [11/25]
+- 반경 기준 500m 안쪽
+- 도보 800m 이내
+- 기타 지도 API 제공하는 기능 확인
 
-First, run the development server:
+2. 좌측 영역에 가게 목록 표현 [11/25]
+- sort by 거리
+- 가게 기본 정보 표시
+    - 스샷
+    - 가게명
+    - 연락처
+    - 기타 추가 정보
+    - 가게 댓글정보 (API 존재 하려나...?)
 
-```bash
-npm run dev
-# or
-yarn dev
-```
+3. 돌림판 돌리기 버튼 추가 [11/22]
+- 최초 진입 시 화면 중앙에
+- 돌린 이후 좌측 영역하단
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+4. 돌림판 돌릴 때 화면 색상 [11/22]
+- 지도(백그라운드) 영역은 (DARKEN, 음영)
+- 돌림판(포어그라운드) 영역은 원래 색상(LIGHT)
 
-You can start editing the page by modifying `pages/index.tsx`. The page auto-updates as you edit the file.
+5. 지도 핀 표현 [11/22]
+- 내 위치 => 사람 마크
+- 기타 주변 가게
+    - 내 주변 등록된 가게 모두 표현 (DARKEN, 음영)
+- 선택 가게 위치 => 원래 색상 (LIGHT)
 
-[API routes](https://nextjs.org/docs/api-routes/introduction) can be accessed on [http://localhost:3000/api/hello](http://localhost:3000/api/hello). This endpoint can be edited in `pages/api/hello.ts`.
+6. 지도 선택 핀 표현 []
+- 돌림판 선택 시 최초 표시
+- 음영 처리된 가게를 선택하여도 표시 되도록
+- 가게 명 정보 표현
+- 내 위치에서 걸어서 찾아가는 길 정보 지도 내 표시(API 있나?)
 
-The `pages/api` directory is mapped to `/api/*`. Files in this directory are treated as [API routes](https://nextjs.org/docs/api-routes/introduction) instead of React pages.
+6. 지도 핀 선택 [11/23]
+- 가게 위치 핀 선택하면 해당 가게 정보 표시
 
-## Learn More
 
-To learn more about Next.js, take a look at the following resources:
+## Todo Later
+1. 좌측 영역에 가게 목록 표현
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+- sort by 추천 점수
+- sort by 메인메뉴 가격
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js/) - your feedback and contributions are welcome!
+2. splash 화면 추가
 
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/deployment) for more details.
+- 맛집을 찾는다는 느낌으로
+- 백그라운드 지도 로딩을 지연하기 위함
+- 길지는 않고 약 1~2초 정도

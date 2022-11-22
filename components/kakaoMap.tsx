@@ -7,7 +7,7 @@ import useGeolocation from "../hooks/useGeolocation";
 import { Map, MapMarker, useInjectKakaoMapApi, useMap } from "react-kakao-maps-sdk"
 import RestaurantList from "./restaurantList";
 import { useRoadStore } from "../store/road.store";
-import Road from "./road";
+import Road from "./mark";
 
 
 
@@ -21,7 +21,15 @@ const KakaoMap=()=>{
     const [myPosition,setMyPosition]=useState<MyPoistion>()
     const location = useGeolocation();
     const [centerPosition,setCenterPosition] = useState<MyPoistion>()
-    const [onRoad,restaurantRoad]=useRoadStore((state)=>[state.onRoad,state.restaurantInfo])
+    const [
+      onRoad,
+      selectMark,
+      setRestaurantMark
+    ]=useRoadStore((state)=>[
+      state.onRoad,
+      state.selectMark,
+      state.setRestaurantMark
+    ])
 
     useEffect(()=>{
       console.log(location);
@@ -39,14 +47,20 @@ const KakaoMap=()=>{
     },[location])
 
     useEffect(()=>{
-      setCenterPosition(restaurantRoad)
-    },[restaurantRoad])
-
+      if(selectMark){
+         setCenterPosition({
+        lat:selectMark?.lat!,
+        lng:selectMark?.lng!
+      })
+      }
+     
+    },[selectMark])
 
     return(
            <Map  
                 className="w-full h-full"
-                 center={centerPosition? 
+                 center={
+                  centerPosition? 
                   centerPosition:
                   { lat: 33.5563, 
                   lng: 126.79581 }}

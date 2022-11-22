@@ -13,13 +13,16 @@ interface IRestaurantList{
 const fetcher = (url:string) => axios.get(url).then(res => res.data)
 
 const RestaurantList=({lat,lng}:IRestaurantList)=>{    
-    const [setRoad,
+    const [
+        setRoad,
         onRoad,
-        setRestaurantInfo
+        setSelectMark,
+        setRestaurantMark
     ]=useRoadStore((state)=>[
         state.setRoad,
         state.onRoad,
-        state.setRestaurantInfo
+        state.setSelectMark,
+        state.setRestaurantMark
     ]);
     // const onLoading =useLoadiingStore((state)=>state.onLoading)
     const [onRestaurantInfo,setOnRestaurantInfo]=useState<boolean>(false);
@@ -42,6 +45,20 @@ const RestaurantList=({lat,lng}:IRestaurantList)=>{
             }
         }
     })
+    useEffect(()=>{
+        console.log(data);
+        if(data){
+            const list = data.map((item:any)=>{
+                return{
+                    name:item.name,
+                    id:item.place_id,
+                    lat:item.geometry.location.lat,
+                    lng:item.geometry.location.lng
+                }
+            })
+            setRestaurantMark(list);
+        }
+    },[data])
 
     return(
         <>{
@@ -101,6 +118,7 @@ const RestaurantList=({lat,lng}:IRestaurantList)=>{
                                      alt={data[randomKey].name}
                                      width={400}
                                      height={300}
+                                    
                                         src={data[randomKey].photos?.length>0?
                                             `https://maps.googleapis.com/maps/api/place/photo?maxwidth=400&photo_reference=${data[randomKey].photos[0].photo_reference}&key=AIzaSyD7hySl2ct4VunK1C99CeZ-9ithi1dlOZY`
                                             :'/assets/noImage.png'}/>
@@ -125,7 +143,12 @@ const RestaurantList=({lat,lng}:IRestaurantList)=>{
                                     onClick={()=>{
                                         console.log(data[randomKey])
                                         setRoad(true)
-                                        setRestaurantInfo(data[randomKey].geometry.location
+                                        setSelectMark({
+                                            name: data[randomKey].name,
+                                            lat: data[randomKey].geometry.location.lat,
+                                            lng: data[randomKey].geometry.location.lng,
+                                            id: data[randomKey].place_id
+                                        }
                                         )
                                     }}
                                     >

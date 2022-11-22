@@ -1,17 +1,22 @@
 import create from 'zustand'
 
-interface RestaurantPosition{
+interface RestaurantMark{
+    name:string;
+    id:string;
     lat:number;
     lng:number;
 }
 
 interface IRoadStoreProps{
     onRoad?:boolean;
-    restaurantInfo?:RestaurantPosition
+    restaurantMark?:RestaurantMark[];
+    selectMark?:RestaurantMark
     setRoad:(value:boolean)=>void;
-    setRestaurantInfo:(restaurantInfo:RestaurantPosition)=>void;
+    setSelectMark:(selectMark:RestaurantMark)=>void
+    setRestaurantMark:(restaurantInfo:RestaurantMark[])=>void;
 }
 export const useRoadStore=create<IRoadStoreProps>((set)=>({
     setRoad:(onRoad)=>set((state)=>({onRoad})),
-    setRestaurantInfo:(restaurantInfo:RestaurantPosition)=>set((state)=>({restaurantInfo}))
+    setSelectMark:(selectMark:RestaurantMark)=>set((state)=>({selectMark})),
+    setRestaurantMark:(restaurantMark:RestaurantMark[])=>set((state)=>({restaurantMark}))
 }));
