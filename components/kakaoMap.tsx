@@ -6,8 +6,8 @@ import useGeolocation from "../hooks/useGeolocation";
 // import Map from "./map";
 import { Circle, Map, MapMarker, useInjectKakaoMapApi, useMap } from "react-kakao-maps-sdk"
 import { useRoadStore } from "../store/road.store";
-import Road from "./mark";
 import RestaurantMain from "./restaurant/restaurantMain";
+import Mark from "./mark";
 
 
 
@@ -19,16 +19,15 @@ const KakaoMap=()=>{
 
 
     const [myPosition,setMyPosition]=useState<MyPoistion>()
+
     const location = useGeolocation();
     const [centerPosition,setCenterPosition] = useState<MyPoistion>()
     const [
       onRoad,
-      selectMark,
-      setRestaurantMark
+      selectMark
     ]=useRoadStore((state)=>[
       state.onRoad,
-      state.selectMark,
-      state.setRestaurantMark
+      state.selectMark
     ])
 
     useEffect(()=>{
@@ -67,7 +66,7 @@ const KakaoMap=()=>{
                  style={{ width: "100%", height: "100%" }}
                >
                 {
-                  centerPosition&&(
+                  myPosition&&(
                     <Circle
                     radius={500}
                     strokeWeight={5} // 선의 두께입니다
@@ -76,7 +75,7 @@ const KakaoMap=()=>{
                     strokeStyle={'solid'} // 선의 스타일 입니다
                     fillColor={"#CFE7FF"} // 채우기 색깔입니다
                     fillOpacity={0.7} // 채우기 불투명도 입니다
-                    center={centerPosition}
+                    center={myPosition}
                     />
                   )
                 }
@@ -88,7 +87,7 @@ const KakaoMap=()=>{
                 }
                 {
                     myPosition&&onRoad&&(
-                        <Road myPosition={myPosition!}/>
+                        <Mark myPosition={myPosition!}/>
                     )
                 }
             </Map>      

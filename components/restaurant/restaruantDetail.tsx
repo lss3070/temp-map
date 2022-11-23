@@ -4,7 +4,7 @@ import { useRoadStore } from "../../store/road.store";
 
 interface IRestaurantView{
     name: string,
-    photos:any[]
+    photoUrl:string
     location:{
         lat:number,
         lng:number
@@ -14,7 +14,7 @@ interface IRestaurantView{
 }
 
 const RestaurantView=({
-    name,photos,location,place_id,vicinity
+    name,photoUrl,location,place_id,vicinity
 }:IRestaurantView)=>{
 
     const [
@@ -54,9 +54,7 @@ const RestaurantView=({
                                      width={400}
                                      height={300}
                                     
-                                        src={photos?.length>0?
-                                            `https://maps.googleapis.com/maps/api/place/photo?maxwidth=400&photo_reference=${photos[0].photo_reference}&key=AIzaSyD7hySl2ct4VunK1C99CeZ-9ithi1dlOZY`
-                                            :'/assets/noImage.png'}/>
+                                        src={photoUrl}/>
                                <div className=" font-semibold text-center text-white">
                                     {vicinity}
                                 </div>
@@ -85,7 +83,8 @@ const RestaurantView=({
                                             name: name,
                                             lat:location.lat,
                                             lng:location.lng,
-                                            id:place_id
+                                            id:place_id,
+                                            photos:photoUrl
                                         }
                                         )
                                     }}

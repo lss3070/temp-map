@@ -51,17 +51,45 @@ const RestaurantMain=({lat,lng}:IRestaurantList)=>{
             }
         }
     })
+
+    const deg2rad=(deg:number)=>{
+        return deg*(Math.PI/180)
+    }
+    const getDistance=(
+        lat1:number,
+        lng1:number,
+        lat2:number,
+        lng2:number)=>{
+            var R = 6371; // Radius of the earth in km
+            var dLat = deg2rad(lat2-lat1);  // deg2rad below
+            var dLon = deg2rad(lng2-lng1);
+            var a = Math.sin(dLat/2) * Math.sin(dLat/2) + Math.cos(deg2rad(lat1)) * Math.cos(deg2rad(lat2)) * Math.sin(dLon/2) * Math.sin(dLon/2);
+            var c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1-a));
+            var d = R * c; // Distance in km
+            return d;
+
+    }
+
     useEffect(()=>{
         console.log(data);
         if(data){
             const list = data.map((item:any)=>{
+               const distance = getDistance(lat,lng,item.geometry.location.lat,item.geometry.location.lng)
                 return{
                     name:item.name,
                     id:item.place_id,
                     lat:item.geometry.location.lat,
-                    lng:item.geometry.location.lng
+                    lng:item.geometry.location.lng,
+                    photos:item.photos?.length>0?
+                    `https://maps.googleapis.com/maps/api/place/photo?maxwidth=400&photo_reference=${item.photos[0].photo_reference}&key=AIzaSyD7hySl2ct4VunK1C99CeZ-9ithi1dlOZY`:
+                    `/assets/noImage.png`,
+                    rating:item.rating,
+                    vicinity:item.vicinity,
+                    priceLevel:item.price_level?item.price_level:undefined,
+                    distance
                 }
             })
+            list.sort((a:any,b:any)=>a.distance-b.distance)
             setRestaurantMark(list);
         }
     },[data])
@@ -102,7 +130,10 @@ const RestaurantMain=({lat,lng}:IRestaurantList)=>{
                        onRestaurantInfo&&(
                        <RestaurantView
                        name={data[randomKey].name}
-                       photos={data[randomKey].photos}
+                       photoUrl={data[randomKey].photos?.length>0?
+                    `https://maps.googleapis.com/maps/api/place/photo?maxwidth=400&photo_reference=${data[randomKey].photos[0].photo_reference}&key=AIzaSyD7hySl2ct4VunK1C99CeZ-9ithi1dlOZY`:
+                    `/assets/noImage.png`
+                    }
                        place_id={data[randomKey].place_id}
                        vicinity={data[randomKey].vicinity}
                        location={data[randomKey].geometry.location}

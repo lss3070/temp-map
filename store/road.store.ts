@@ -5,6 +5,11 @@ interface RestaurantMark{
     id:string;
     lat:number;
     lng:number;
+    photos?:string;
+    rating?:number;
+    vicinity?:string//주소
+    priceLevel?:number;
+    distance?:number;
 }
 
 interface IRoadStoreProps{
