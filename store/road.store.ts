@@ -17,11 +17,11 @@ interface IRoadStoreProps{
     restaurantMark?:RestaurantMark[];
     selectMark?:RestaurantMark
     setRoad:(value:boolean)=>void;
-    setSelectMark:(selectMark:RestaurantMark)=>void
+    setSelectMark:(selectMark:RestaurantMark|undefined)=>void
     setRestaurantMark:(restaurantInfo:RestaurantMark[])=>void;
 }
 export const useRoadStore=create<IRoadStoreProps>((set)=>({
     setRoad:(onRoad)=>set((state)=>({onRoad})),
-    setSelectMark:(selectMark:RestaurantMark)=>set((state)=>({selectMark})),
+    setSelectMark:(selectMark:RestaurantMark|undefined)=>set((state)=>({selectMark})),
     setRestaurantMark:(restaurantMark:RestaurantMark[])=>set((state)=>({restaurantMark}))
 }));

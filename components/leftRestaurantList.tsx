@@ -1,5 +1,6 @@
 import { faStar, faWon } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { motion } from "framer-motion";
 import Image from "next/image";
 import { useRoadStore } from "../store/road.store"
 
@@ -29,18 +30,33 @@ const LeftMenu=()=>{
         }
     }
 
+    const container={
+        hidden:{opacity: 0, translateX: '-100%'},
+        show:{opacity: 1, translateX: '0%'}
+    }
+
+
     return(
         <>
         {
-            selectMark&&(
-                <div className="absolute top-0 left-0 w-1/5 h-full 
-                z-10 bg-gray-300 overflow-y-scroll grid gap-5 py-5">
+                <>
+                   <motion.div 
+                    variants={container}
+                    animate={selectMark?'show':'hidden'}
+                     transition={{
+                       default: {
+                         duration: 0.3,
+                         ease: [0, 0.71, 0.2, 1.01]
+                       },
+                     }}
+                   className="absolute top-0 left-0 w-1/5 h-full
+                z-10 bg-gray-300 overflow-y-scroll grid gap-5 py-5 justify-center">
                     {
                         restuarantMark?.map((restaurant,index)=>{
                             return(
                                 <div key={index} 
                                 onClick={()=>setSelectMark(restaurant)}
-                                className='w-full
+                                className='w-[250px]
                                 grid justify-center items-center cursor-pointer hover:bg-slate-300'>
                                     <div className="w-[240px] h-[200px] relative rounded-2xl overflow-hidden">
                                         <Image
@@ -75,13 +91,18 @@ const LeftMenu=()=>{
                                         }
                                         </div>
                                     </div>
-                                    <div>{restaurant.vicinity}</div>
+                                    <div className=" break-words w-full">{restaurant.vicinity}</div>
                                 </div>
                             )
                         })
                     }
+                </motion.div>
+                <div className=" absolute bottom-1 left-[400px] z-10 bg-gray-400 p-2 rounded-2xl cursor-pointer"
+                onClick={()=>setSelectMark(undefined)}
+                >
+                    다시 돌리기
                 </div>
-            )
+                </>
         }
         </>
     )

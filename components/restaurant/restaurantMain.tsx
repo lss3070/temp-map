@@ -39,7 +39,7 @@ const RestaurantMain=({lat,lng}:IRestaurantList)=>{
         console.log(elementRef.current?.scrollLeft)
         if(elementRef.current){
             // if(t>2000){
-                if(elementRef.current?.scrollLeft>3000){
+                if(elementRef.current?.scrollLeft>1000){
                     setOnRestaurantInfo(true);
         
                 return;

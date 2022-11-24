@@ -66,7 +66,7 @@ const KakaoMap=()=>{
                  style={{ width: "100%", height: "100%" }}
                >
                 {
-                  myPosition&&(
+                  selectMark&&myPosition&&(
                     <Circle
                     radius={500}
                     strokeWeight={5} // 선의 두께입니다
