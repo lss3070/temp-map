@@ -1,12 +1,14 @@
 import axios from "axios";
-import { AnimatePresence, motion, useAnimationFrame } from "framer-motion";
+import { AnimatePresence, motion, useAnimationControls, useAnimationFrame } from "framer-motion";
 import Image from "next/image";
 import { useEffect, useRef, useState } from "react";
+import { flushSync } from "react-dom";
 import useSWR from "swr";
 import { useInterval } from "../../hooks/useInterval";
 import { useRoadStore } from "../../store/road.store";
 import RestaurantView from "./restaruantDetail";
 import RestaurantListItem from "./restaurantListItem";
+import RestuarantSlide from "./restaurantSlide";
 
 interface IRestaurantList{
     lat:number;
@@ -22,35 +24,15 @@ const RestaurantMain=({lat,lng}:IRestaurantList)=>{
         state.onRoad,
         state.setRestaurantMark
     ]);
+
     // const onLoading =useLoadiingStore((state)=>state.onLoading)
     const [onRestaurantInfo,setOnRestaurantInfo]=useState<boolean>(false);
     
     const {data,error}=useSWR(`http://${window.location.host}/api/getRestaurants?lat=${lat}&lng=${lng}`
     ,fetcher)
-
-    const[randomKey,]=useState<number>(Math.floor(Math.random()*13))
-
-    const [onCycle,setOnCycle]=useState<boolean>(false);
     
-    const elementRef = useRef<HTMLDivElement>(null);
 
-    useAnimationFrame((t,delta)=>{
-        console.log
-        console.log(elementRef.current?.scrollLeft)
-        if(elementRef.current){
-            // if(t>2000){
-                if(elementRef.current?.scrollLeft>1000){
-                    setOnRestaurantInfo(true);
-        
-                return;
-            }else{
-                if(onCycle){
-                    elementRef.current.scrollTo(t*2,0)
-                }
-                // elementRef.current.style.transform = `translateX(${t / 10}px)`;
-            }
-        }
-    })
+    const[randomKey,setRandomKey]=useState<number>(0)
 
     const deg2rad=(deg:number)=>{
         return deg*(Math.PI/180)
@@ -67,11 +49,12 @@ const RestaurantMain=({lat,lng}:IRestaurantList)=>{
             var c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1-a));
             var d = R * c; // Distance in km
             return d;
-
+    }
+    const resetRandomKey=()=>{
+        setRandomKey(Math.floor(Math.random()*data.length-1))
     }
 
     useEffect(()=>{
-        console.log(data);
         if(data){
             const list = data.map((item:any)=>{
                const distance = getDistance(lat,lng,item.geometry.location.lat,item.geometry.location.lng)
@@ -91,18 +74,37 @@ const RestaurantMain=({lat,lng}:IRestaurantList)=>{
             })
             list.sort((a:any,b:any)=>a.distance-b.distance)
             setRestaurantMark(list);
+            resetRandomKey()
         }
     },[data])
+
+    useEffect(()=>{
+        if(onRoad){
+            setOnRestaurantInfo(false)
+        }
+    },[onRoad])    
+
 
     return(
         <>{
             !onRoad&&(
                 <>
-                <div className=" absolute top-1/2 left-1/2 translate-x-[-50%] translate-y-[-50%] 
-                        z-30 w-2/3 h-[250px] ">
-                            <motion.div 
+                <div className=" absolute top-1/2 left-1/2 translate-x-[-50%] translate-y-[-70%] 
+                        z-30 w-[800px] h-[250px] ">
+                            {
+                                data&&(
+                                    <RestuarantSlide data={data}
+                                    randomKey={randomKey}
+                                    setRandomKey={setRandomKey}
+              
+                                    onRestaurantView={setOnRestaurantInfo}
+                                    />
+                                )
+                            }
+                            {/* <motion.div 
+                            animate={controls}
                             ref={elementRef}
-                            className="w-full h-full grid grid-flow-col overflow-x-scroll gap-10">
+                            className="w-full border border-red-400 h-full grid grid-flow-col overflow-x-scroll gap-10">
                             {
                                 data&&data.map((restaurant:any,index:number)=>{
                                     return(
@@ -115,19 +117,19 @@ const RestaurantMain=({lat,lng}:IRestaurantList)=>{
                                     )
                                 })
                             }
-                            </motion.div>
-                            <div className=" w-full text-center">
+                            </motion.div> */}
+                            {/* <div className=" w-full text-center">
                                 <span className=" bg-gray-500 p-2 
                                  font-semibold text-lg
                                 rounded-xl cursor-pointer text-white"
                                 onClick={()=>setOnCycle(true)}>
                                     랜덤 돌리기
                                 </span>
-                            </div>
+                            </div> */}
                     </div>
                    
                     {
-                       onRestaurantInfo&&(
+                      onRestaurantInfo&&(
                        <RestaurantView
                        name={data[randomKey].name}
                        photoUrl={data[randomKey].photos?.length>0?
@@ -137,6 +139,7 @@ const RestaurantMain=({lat,lng}:IRestaurantList)=>{
                        place_id={data[randomKey].place_id}
                        vicinity={data[randomKey].vicinity}
                        location={data[randomKey].geometry.location}
+                       onRestaurantView={setOnRestaurantInfo}
                        />
                         )
                     }
