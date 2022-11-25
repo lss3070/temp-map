@@ -1,9 +1,9 @@
 ## Libaray & Framework
-ide: VsCode
-프레임 워크: NextJs(13.04)
-언어 : Typescript(4.9.3)
-상태관리툴 : Zustand(4.1.4),SWR(1.3.0)
-라이브러리
+- ide: VsCode(1.69.2)
+- 프레임 워크: NextJs(13.04)
+- 언어 : Typescript(4.9.3)
+- 상태관리툴 : Zustand(4.1.4),SWR(1.3.0)
+- 라이브러리
 ```
 - fontawesome(6.2.1) - 다양하게 폰트지원하는 라이브러리
 - framer-motion(5.6.3) - 인터렉티브한 UI제공 라이브러리
