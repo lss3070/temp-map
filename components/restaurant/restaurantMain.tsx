@@ -90,7 +90,7 @@ const RestaurantMain=({lat,lng}:IRestaurantList)=>{
             !onRoad&&(
                 <>
                 <div className=" absolute top-1/2 left-1/2 translate-x-[-50%] translate-y-[-70%] 
-                        z-30 w-[800px] h-[250px] ">
+                        z-30 w-[800px] h-[250px]">
                             {
                                 data&&(
                                     <RestuarantSlide data={data}

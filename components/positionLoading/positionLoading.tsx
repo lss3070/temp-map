@@ -9,13 +9,18 @@ const PositionLoading=()=>{
     const location = useGeolocation();
     const onLoading=useLoadiingStore((state)=>state.onLoading)
 
-    const onRoad =useRoadStore((state)=>state.onRoad);
+    const [onRoad,setRoad] =useRoadStore((state)=>[state.onRoad,state.setRoad]);
    
     return(
         <>
             {
                 (!onRoad&&onLoading)&&(
-                    <div className="w-full h-full bg-black bg-opacity-80
+                    <div 
+                    onClick={(e)=>{
+                        e.stopPropagation();
+                        setRoad(true)
+                    }}
+                    className="w-full h-full bg-black bg-opacity-80
                     absolute z-20 top-0 left-0 grid justify-center items-center "/>
                 )
             }

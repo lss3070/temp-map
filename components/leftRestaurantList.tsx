@@ -49,7 +49,7 @@ const LeftMenu=()=>{
                 <>
                    <motion.div 
                     variants={container}
-                    animate={selectMark?'show':'hidden'}
+                    animate={onRoad?'show':'hidden'}
                      transition={{
                        default: {
                          duration: 0.3,
