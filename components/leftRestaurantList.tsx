@@ -45,6 +45,8 @@ const LeftMenu=()=>{
 
     useEffect(()=>{
         console.log(selectMark);
+
+        
     },[selectMark])
 
 

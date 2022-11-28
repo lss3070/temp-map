@@ -16,6 +16,8 @@ interface IRestaruantSlide{
 const RestuarantSlide=({data,randomKey,setRandomKey,onRestaurantView}:IRestaruantSlide)=>{
     const ee=useRef<any>()
 
+    const [randomSelectIndex,setRandomSelectIndex]=useState<number>();
+
     const [curCenterIndex,setCurCenterIndex]=useState<number>(0);
 
     const assiingLeft=(index:number)=>{
@@ -32,8 +34,12 @@ const RestuarantSlide=({data,randomKey,setRandomKey,onRestaurantView}:IRestaruan
     }
 
     const Random =()=>{
+
+
+
         const tempRandomKey= Math.floor((Math.random()*data.length-2)+1);
 
+        setRandomSelectIndex(tempRandomKey)
         setRandomKey(tempRandomKey)
         const step= tempRandomKey-curCenterIndex>0?
         tempRandomKey-curCenterIndex:
@@ -77,7 +83,6 @@ const RestuarantSlide=({data,randomKey,setRandomKey,onRestaurantView}:IRestaruan
                 break;
         }
     }
-
     return(
         <div className=" w-full h-[300px] grid select-none">
              <div className="w-full h-[250px] flex">
@@ -100,7 +105,7 @@ const RestuarantSlide=({data,randomKey,setRandomKey,onRestaurantView}:IRestaruan
                             //center
                             position='center'
                             motionStyle={
-                                left:'55%',
+                                left:'50%',
                                 translateX:'-50%',
                                 // visibility:'visible',
                                 zIndex:10,
@@ -144,9 +149,11 @@ const RestuarantSlide=({data,randomKey,setRandomKey,onRestaurantView}:IRestaruan
                             cursor-pointer
                             overflow-scroll
                             absolute 
-                            w-[300px] h-[300px] 
-                            inline-block`} >
-                                <div className={`w-[300px] h-[200px] `} style={{position:'relative'}}>
+                            w-[300px] h-[250px] 
+                            inline-block
+                            `} >
+                                <div className={`w-[300px] h-[200px]  ${randomSelectIndex===index?`border-2 border-red-500`:``}`} 
+                                style={{position:'relative'}}>
                                     <Image
                                     layout="fill"
                                     src={restaurant.photos?.length>0?
@@ -169,8 +176,6 @@ const RestuarantSlide=({data,randomKey,setRandomKey,onRestaurantView}:IRestaruan
                     <FontAwesomeIcon className="text-gray-500" icon={faCaretRight} size={'2x'}/>
                 </div>
              </div>
-         
-
           
             <div className="hidden"
             ref={ee}
