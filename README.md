@@ -12,7 +12,33 @@
 ```
 
 ## 폴더 구조
+기본적인 nextjs 폴더구조를 따라가며 next13버전에서 나온 app기반의 폴더 구조가 아닌 next12버전에서의 폴더 구조를 따라간다.
+
+```
+src
+├── components
+│   ├── restaurant
+│   hooks
+│   ├── useGeolocation.ts
+│   pages
+│   ├── index.tsx
+│   store
+│   ├── road.store.ts
+```
+
+### pages
+- page안에 파일들이 세그먼트
+
+
+### styles
+
+### components
+
+### store
+
+### hooks
 
 ## 플러그인
 
 ## 네이밍 규칙
+
