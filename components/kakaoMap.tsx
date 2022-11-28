@@ -87,7 +87,9 @@ const KakaoMap=()=>{
                 }
                 {
                     myPosition&&onRoad&&(
-                        <Mark myPosition={myPosition!}/>
+                        <Mark 
+                        myPosition={myPosition!} 
+                        setMyPosition={setMyPosition}/>
                     )
                 }
             </Map>      

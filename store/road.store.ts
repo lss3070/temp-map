@@ -1,6 +1,6 @@
 import create from 'zustand'
 
-interface RestaurantMark{
+export interface RestaurantMark{
     name:string;
     id:string;
     lat:number;
