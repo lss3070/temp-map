@@ -1,7 +1,6 @@
 import { motion } from "framer-motion";
 import { useEffect, useRef, useState } from "react";
 import Image from "next/image";
-import RestaurantListItem from "./restaurantListItem";
 import { flushSync } from "react-dom";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faArrowLeft, faCaretLeft, faCaretRight } from "@fortawesome/free-solid-svg-icons";
@@ -155,7 +154,10 @@ const RestuarantSlide=({data,randomKey,setRandomKey,onRestaurantView}:IRestaruan
                                 <div className={`w-[300px] h-[200px]  ${randomSelectIndex===index?`border-2 border-red-500`:``}`} 
                                 style={{position:'relative'}}>
                                     <Image
-                                    layout="fill"
+                                    fill
+
+                                    // sizes="(min-width: 300px) (min-height: 200px)"
+                                    
                                     src={restaurant.photos?.length>0?
                                         `https://maps.googleapis.com/maps/api/place/photo?maxwidth=400&photo_reference=${restaurant.photos[0].photo_reference}&key=AIzaSyD7hySl2ct4VunK1C99CeZ-9ithi1dlOZY`
                                         :'/assets/noImage.png'}

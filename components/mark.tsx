@@ -2,7 +2,8 @@ import Image from "next/image";
 import { Dispatch, SetStateAction, useEffect, useRef, useState } from "react";
 import { CustomOverlayMap, MapMarker } from "react-kakao-maps-sdk"
 import { RestaurantMark, useRoadStore } from "../store/road.store";
-import { MyPoistion } from "./kakaoMap";
+import { MyPoistion } from "./Kakao/KakaoMap";
+
 
 interface IPosition{
     lat:number;
@@ -19,7 +20,6 @@ const Mark=({myPosition,setMyPosition}:IRoadProps)=>{
         restaurantMark,
         selectMark,
         setSelectMark
-    
     ]=useRoadStore((state)=>[
         state.restaurantMark,
         state.selectMark,
@@ -27,12 +27,12 @@ const Mark=({myPosition,setMyPosition}:IRoadProps)=>{
     ])
 
 
-console.log(myPosition)
     return(
         <>
         {/* My Position */}
         <>
             <MapMarker
+        
             onClick={()=>setSelectMark(undefined)}
                     image={{
                         src: '/assets/human.png',
@@ -150,4 +150,5 @@ console.log(myPosition)
         </>
     )
 }
+
 export default Mark

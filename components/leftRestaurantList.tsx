@@ -6,7 +6,7 @@ import Image from "next/image";
 import { useEffect } from "react";
 import { useRoadStore } from "../store/road.store"
 
-const LeftMenu=()=>{
+const LeftRestaurantList=()=>{
     const [
         onRoad,
         selectMark,
@@ -43,28 +43,12 @@ const LeftMenu=()=>{
         show:{opacity: 1, translateX: '0%'}
     }
 
-    useEffect(()=>{
-        console.log(selectMark);
-
-        
-    },[selectMark])
 
 
     return(
         <>
         {
-                <>
-                   <motion.div 
-                    variants={container}
-                    animate={onRoad?'show':'hidden'}
-                     transition={{
-                       default: {
-                         duration: 0.3,
-                         ease: [0, 0.71, 0.2, 1.01]
-                       },
-                     }}
-                   className="absolute top-0 left-0 w-[300px] h-full
-                z-10 bg-gray-300 overflow-y-scroll grid gap-5 py-5 ">
+                <div className="grid gap-5 py-5 bg-gray-300 overflow-y-scroll">
                     {
                         restuarantMark?.map((restaurant,index)=>{
                             return(
@@ -113,26 +97,11 @@ const LeftMenu=()=>{
                             )
                         })
                     }
-                </motion.div>
-                {
-                    onRoad&&(
-                        <div className=" absolute bottom-1 left-[320px] z-10 bg-gray-400 p-2 rounded-2xl cursor-pointer 
-                        text-white"
-                        onClick={()=>{
-                            setSelectMark(undefined)
-                            setRoad(false)                    
-                        }}
-                        >
-                            다시 돌리기
-                        </div>
-                    )
-                }
-
-                </>
+                </div>
         }
         </>
     )
 }
-export default LeftMenu
+export {LeftRestaurantList}
 
 

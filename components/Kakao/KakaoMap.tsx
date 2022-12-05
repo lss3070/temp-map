@@ -2,25 +2,22 @@
 
 import axios from "axios";
 import { useEffect, useState } from "react";
-import useGeolocation from "../hooks/useGeolocation";
+import useGeolocation from "../../hooks/useGeolocation";
 // import Map from "./map";
 import { Circle, Map, MapMarker, useInjectKakaoMapApi, useMap } from "react-kakao-maps-sdk"
-import { useRoadStore } from "../store/road.store";
-import RestaurantMain from "./restaurant/restaurantMain";
-import Mark from "./mark";
+import { useRoadStore } from "../../store/road.store";
 
+import { RestaurantMain } from "../restaurant/RestaurantMain";
+import Mark from "../Mark";
+import { RoadGuide } from "./RoadGuide";
 
-
-export interface MyPoistion{
+interface MyPoistion{
   lat:number;
   lng:number;
 }
 const KakaoMap=()=>{
-
-
-    const [myPosition,setMyPosition]=useState<MyPoistion>()
-
     const location = useGeolocation();
+    const [myPosition,setMyPosition]=useState<MyPoistion>()
     const [centerPosition,setCenterPosition] = useState<MyPoistion>()
     const [
       onRoad,
@@ -31,7 +28,6 @@ const KakaoMap=()=>{
     ])
 
     useEffect(()=>{
-      console.log(location);
         if(location.loaded){
           
           setMyPosition({
@@ -58,16 +54,18 @@ const KakaoMap=()=>{
     return(
            <Map  
                 className="w-full h-full"
+                
                  center={
                   centerPosition? 
                   centerPosition:
-                  { lat: 33.5563, 
+                  { lat: 33.5563-0.0001, 
                   lng: 126.79581 }}
                  style={{ width: "100%", height: "100%" }}
                >
                 {
                   onRoad&&myPosition&&(
                     <Circle
+                    
                     radius={500}
                     strokeWeight={5} // 선의 두께입니다
                     strokeColor={"#75B8FA"} // 선의 색깔입니다
@@ -87,13 +85,17 @@ const KakaoMap=()=>{
                 }
                 {
                     myPosition&&onRoad&&(
+                      <>
                         <Mark 
                         myPosition={myPosition!} 
                         setMyPosition={setMyPosition}/>
+                        <RoadGuide myPosition={myPosition}/>
+                      </>
                     )
                 }
             </Map>      
     )
 }
 
-export default KakaoMap;
+export {KakaoMap};
+export type {MyPoistion}

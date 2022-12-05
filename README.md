@@ -1,5 +1,5 @@
 ## Libaray & Framework
-- ide: VsCode(1.69.2)
+- IDE: VsCode(1.69.2)
 - 프레임 워크: NextJs(13.04)
 - 언어 : Typescript(4.9.3)
 - 상태관리툴 : Zustand(4.1.4),SWR(1.3.0)
@@ -17,7 +17,7 @@
 ```
 src
 ├── components
-│   ├── restaurant
+│   ├── restaurant.tsx
 │   hooks
 │   ├── useGeolocation.ts
 │   pages
@@ -26,19 +26,18 @@ src
 │   ├── road.store.ts
 ```
 
-### pages
+#### pages
 - page안에 파일들이 세그먼트
+- 
 
+#### components
+- 
 
-### styles
+#### store
+- 전역 상태관리를 하는 저장소이며 zustand 라이브러리를 이용하여 상태관리를 한다.
 
-### components
-
-### store
-
-### hooks
-
-## 플러그인
+#### hooks
+- 커스텀 hook폴더이며 지원되지않는 훅들을 자체적으로 만들어 제공한다.
 
 ## 네이밍 규칙
 
