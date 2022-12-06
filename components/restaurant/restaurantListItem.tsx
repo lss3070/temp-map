@@ -1,15 +1,15 @@
 import Image from "next/image";
 
-interface IRestaurantListItem{
+interface IRestaurantListItemProps{
     placeId:string;
     name:string;
     photos:any[]
 }
 
-const RestaurantListItem=({placeId,name,photos}:IRestaurantListItem)=>{
+const RestaurantListItem=({placeId,name,photos}:IRestaurantListItemProps)=>{
     return(
         <div key={placeId} 
-        className='grid 
+        className='grid text-xl 
         borderborder-black 
         w-80 h-[200px]
         '>
@@ -27,4 +27,4 @@ const RestaurantListItem=({placeId,name,photos}:IRestaurantListItem)=>{
     )
 }
 
-export default RestaurantListItem
+export {RestaurantListItem}

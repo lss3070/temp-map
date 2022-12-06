@@ -6,17 +6,19 @@ import { flushSync } from "react-dom";
 import useSWR from "swr";
 import { useInterval } from "../../hooks/useInterval";
 import { useRoadStore } from "../../store/road.store";
-import RestaurantView from "./restaruantDetail";
-import RestaurantListItem from "./restaurantListItem";
-import RestuarantSlide from "./restaurantSlide";
+import { RestaurantSpinDetail } from "./RestaruantSpinDetail";
+import RestuarantSlide from "./RestaurantSlide";
 
-interface IRestaurantList{
+
+
+
+interface IRestaurantListProps{
     lat:number;
     lng:number;
 }
 const fetcher = (url:string) => axios.get(url).then(res => res.data)
 
-const RestaurantMain=({lat,lng}:IRestaurantList)=>{    
+const RestaurantMain=({lat,lng}:IRestaurantListProps)=>{    
     const [
         onRoad,
         setRestaurantMark
@@ -56,6 +58,7 @@ const RestaurantMain=({lat,lng}:IRestaurantList)=>{
 
     useEffect(()=>{
         if(data){
+            console.log(data);
             const list = data.map((item:any)=>{
                const distance = getDistance(lat,lng,item.geometry.location.lat,item.geometry.location.lng)
                 return{
@@ -130,7 +133,7 @@ const RestaurantMain=({lat,lng}:IRestaurantList)=>{
                    
                     {
                       onRestaurantInfo&&(
-                       <RestaurantView
+                       <RestaurantSpinDetail
                        name={data[randomKey].name}
                        photoUrl={data[randomKey].photos?.length>0?
                     `https://maps.googleapis.com/maps/api/place/photo?maxwidth=400&photo_reference=${data[randomKey].photos[0].photo_reference}&key=AIzaSyD7hySl2ct4VunK1C99CeZ-9ithi1dlOZY`:
@@ -151,4 +154,4 @@ const RestaurantMain=({lat,lng}:IRestaurantList)=>{
     )
 }
 
-export default RestaurantMain;
+export {RestaurantMain};

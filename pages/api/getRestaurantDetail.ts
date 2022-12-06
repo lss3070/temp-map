@@ -18,10 +18,9 @@ export default async function handler(
   res: NextApiResponse<any>
 ) {
 
-  const list = await axios.get(`https://maps.googleapis.com/maps/api/place/nearbysearch/json?location=${req.query.lat},${req.query.lng}&keyword=점심&radius=230&opennow=true&type=restaurant&language=ko&key=AIzaSyD7hySl2ct4VunK1C99CeZ-9ithi1dlOZY`)
+  const detail = await axios.get(`https://maps.googleapis.com/maps/api/place/details/json?place_id=${req.query.id}&key=AIzaSyD7hySl2ct4VunK1C99CeZ-9ithi1dlOZY&language=ko`)
 
-
-  res.status(200).json(list.data.results)
+  res.status(200).json(detail.data.result)
 }
 
 

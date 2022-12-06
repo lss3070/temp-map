@@ -1,7 +1,9 @@
 import Image from "next/image";
-import { useEffect } from "react";
+import { Dispatch, SetStateAction, useEffect, useRef, useState } from "react";
 import { CustomOverlayMap, MapMarker } from "react-kakao-maps-sdk"
-import { useRoadStore } from "../store/road.store";
+import { IMyPoistion } from "../store/myPosition.store";
+import { RestaurantMark, useRoadStore } from "../store/road.store";
+
 
 interface IPosition{
     lat:number;
@@ -9,26 +11,29 @@ interface IPosition{
 }
 interface IRoadProps{
     myPosition:IPosition
+    setMyPosition:Dispatch<SetStateAction<IMyPoistion | undefined>>;
 }
 
-const Mark=({myPosition}:IRoadProps)=>{
-    
+const Mark=({myPosition,setMyPosition}:IRoadProps)=>{
+
     const [
         restaurantMark,
         selectMark,
         setSelectMark
-    
     ]=useRoadStore((state)=>[
         state.restaurantMark,
         state.selectMark,
         state.setSelectMark
     ])
 
+
     return(
         <>
         {/* My Position */}
         <>
-            <MapMarker 
+            <MapMarker
+        
+            onClick={()=>setSelectMark(undefined)}
                     image={{
                         src: '/assets/human.png',
                         size:{
@@ -36,6 +41,15 @@ const Mark=({myPosition}:IRoadProps)=>{
                             height:25
                         }
                     }} 
+            draggable={true}
+            onDragEnd={(e)=>{
+                const position = e.getPosition();
+                setMyPosition({
+                    lat:position.getLat(),
+                    lng:position.getLng()
+                });
+                setSelectMark(undefined)
+            }}
             position={myPosition}>
             </MapMarker>
             <CustomOverlayMap
@@ -46,7 +60,7 @@ const Mark=({myPosition}:IRoadProps)=>{
                                 lng:myPosition.lng
                             }}
                         >
-                            <div className="
+                            <div className={`
                             grid
                              
                             bg-sky-900
@@ -54,7 +68,10 @@ const Mark=({myPosition}:IRoadProps)=>{
                            text-white
                              rounded-lg
                             text-center
-                            w-auto h-7 px-2" 
+                            w-auto h-7 px-2
+                            ${selectMark===undefined?`bg-sky-500`:`bg-sky-900`}
+                            `}
+                            onClick={()=>setSelectMark(undefined)}
                             >
                                 <div className="h-full w-full">
                                    내위치
@@ -66,7 +83,6 @@ const Mark=({myPosition}:IRoadProps)=>{
         {/* 가게위치 */}
         {
             restaurantMark?.map((item,index)=>{
-                
                 return(
                     item.id!==selectMark?.id?(
                         <>
@@ -134,4 +150,5 @@ const Mark=({myPosition}:IRoadProps)=>{
         </>
     )
 }
+
 export default Mark

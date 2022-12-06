@@ -4,7 +4,7 @@ import { motion } from "framer-motion"
 import Image from "next/image";
 import { useRoadStore } from "../../store/road.store";
 
-interface IRestaurantView{
+interface IRestaurantViewProps{
     name: string,
     photoUrl:string
     location:{
@@ -16,9 +16,9 @@ interface IRestaurantView{
     onRestaurantView:Function;
 }
 
-const RestaurantView=({
+const RestaurantSpinDetail=({
     name,photoUrl,location,place_id,vicinity,onRestaurantView
-}:IRestaurantView)=>{
+}:IRestaurantViewProps)=>{
 
     const [
         setRoad,
@@ -95,4 +95,4 @@ const RestaurantView=({
     )
 }
 
-export default RestaurantView
+export {RestaurantSpinDetail}
