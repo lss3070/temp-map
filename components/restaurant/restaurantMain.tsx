@@ -58,6 +58,7 @@ const RestaurantMain=({lat,lng}:IRestaurantListProps)=>{
 
     useEffect(()=>{
         if(data){
+            console.log(data);
             const list = data.map((item:any)=>{
                const distance = getDistance(lat,lng,item.geometry.location.lat,item.geometry.location.lng)
                 return{

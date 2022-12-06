@@ -26,6 +26,7 @@ const RoadGuide=({myPosition}:PropsWithChildren<IRoadGuide>)=>{
     // const [linePath,setLinePath]=useState<Position[]>()
 
     useEffect(()=>{
+        if(!(selectMark&&myPosition)) return
         fetch('https://apis.openapi.sk.com/tmap/routes/pedestrian?version=1&format=json&callback=result',{
             method:'POST',
             headers: {
@@ -47,7 +48,10 @@ const RoadGuide=({myPosition}:PropsWithChildren<IRoadGuide>)=>{
         .then((data)=>{
             console.log('linePath!')
             console.log(data);
-            let tempItem:Position[] = []
+            let tempItem:Position[] = [{
+                lat:myPosition.lat,
+                lng:myPosition.lng
+            }]
             const roadStepList:IRoadStep[]=[]
             
             data.features.forEach((item:any)=>{
@@ -89,7 +93,7 @@ const RoadGuide=({myPosition}:PropsWithChildren<IRoadGuide>)=>{
     return(
         <>
             {
-            roadGuide?.drawPolyLine&&(
+            selectMark&&myPosition&&roadGuide?.drawPolyLine&&(
                 <Polyline
                     path={roadGuide?.drawPolyLine as any}
                     strokeWeight={5}

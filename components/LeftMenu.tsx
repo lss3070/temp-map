@@ -7,16 +7,21 @@ import { RestaurantDetail } from "./restaurant/RestaurantDetail"
 const LeftMenu=()=>{
 
     const [onRoad,
+        selectMarker,
         setSelectMark,
         setRoad
-    ]=useRoadStore((state)=>[state.onRoad,state.setSelectMark,state.setRoad]);
+    ]=useRoadStore((state)=>[state.onRoad,
+        state.selectMark,
+        state.setSelectMark,state.setRoad]);
 
     const container={
         hidden:{opacity: 0, translateX: '-100%'},
         show:{opacity: 1, translateX: '0%'}
     }
-
-
+    const temp={
+        hidden:{opacity: 0, translateX: '-250%'},
+        show:{opacity: 1, translateX: '0%'}
+    }
 
     return(
         <motion.div 
@@ -30,22 +35,8 @@ const LeftMenu=()=>{
           }}
         className="absolute top-0 left-0 w-auto h-full z-10  flex">
             <LeftRestaurantList/>
-            <RestaurantDetail/>
-            {
-                    onRoad&&(
-                        <div className=" relative w-28">
-                            <div className="z-10 bg-gray-400 p-2 rounded-2xl cursor-pointer 
-                            text-white absolute bottom-0 w-full text-center"
-                            onClick={()=>{
-                                setSelectMark(undefined)
-                                setRoad(false)                    
-                            }}
-                            >
-                                다시 돌리기
-                            </div>
-                        </div>
-                    )
-                }
+            
+
         </motion.div>
     )
 }

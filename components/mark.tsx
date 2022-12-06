@@ -1,8 +1,8 @@
 import Image from "next/image";
 import { Dispatch, SetStateAction, useEffect, useRef, useState } from "react";
 import { CustomOverlayMap, MapMarker } from "react-kakao-maps-sdk"
+import { IMyPoistion } from "../store/myPosition.store";
 import { RestaurantMark, useRoadStore } from "../store/road.store";
-import { MyPoistion } from "./Kakao/KakaoMap";
 
 
 interface IPosition{
@@ -11,7 +11,7 @@ interface IPosition{
 }
 interface IRoadProps{
     myPosition:IPosition
-    setMyPosition:Dispatch<SetStateAction<MyPoistion | undefined>>;
+    setMyPosition:Dispatch<SetStateAction<IMyPoistion | undefined>>;
 }
 
 const Mark=({myPosition,setMyPosition}:IRoadProps)=>{

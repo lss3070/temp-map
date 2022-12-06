@@ -10,15 +10,15 @@ import { useRoadStore } from "../../store/road.store";
 import { RestaurantMain } from "../restaurant/RestaurantMain";
 import Mark from "../Mark";
 import { RoadGuide } from "./RoadGuide";
+import { IMyPoistion, useMyPositionStore } from "../../store/myPosition.store";
 
-interface MyPoistion{
-  lat:number;
-  lng:number;
-}
+
 const KakaoMap=()=>{
     const location = useGeolocation();
-    const [myPosition,setMyPosition]=useState<MyPoistion>()
-    const [centerPosition,setCenterPosition] = useState<MyPoistion>()
+
+    const [myPosition,setMyPosition]=useMyPositionStore((state)=>[state.myPosition,state.setMyPosition])
+
+    const [centerPosition,setCenterPosition] = useState<IMyPoistion>()
     const [
       onRoad,
       selectMark
@@ -45,7 +45,7 @@ const KakaoMap=()=>{
       if(selectMark){
          setCenterPosition({
         lat:selectMark?.lat!,
-        lng:selectMark?.lng!
+        lng:selectMark?.lng!-0.005
       })
       }
      
@@ -58,7 +58,7 @@ const KakaoMap=()=>{
                  center={
                   centerPosition? 
                   centerPosition:
-                  { lat: 33.5563-0.0001, 
+                  { lat: 33.5563, 
                   lng: 126.79581 }}
                  style={{ width: "100%", height: "100%" }}
                >
@@ -88,7 +88,7 @@ const KakaoMap=()=>{
                       <>
                         <Mark 
                         myPosition={myPosition!} 
-                        setMyPosition={setMyPosition}/>
+                        setMyPosition={setMyPosition as any}/>
                         <RoadGuide myPosition={myPosition}/>
                       </>
                     )
@@ -98,4 +98,3 @@ const KakaoMap=()=>{
 }
 
 export {KakaoMap};
-export type {MyPoistion}
