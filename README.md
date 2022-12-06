@@ -2,8 +2,8 @@
 Introduce
 ---
 ### Example
-![Starg Page](assets/example.png)
-내주위의 음식점 리스트들을 찾아 랜덤으로 가고싶은곳을 찾아주는 웹플리케이션입니다.
+![Starg Page](public/assets/example.png)
+내주위의 음식점 리스트들을 불러와 랜덤으로 음식점을 결정해주는 웹플리케이션입니다.
 
 [웹사이트](https://temp-map.vercel.app/)
 
