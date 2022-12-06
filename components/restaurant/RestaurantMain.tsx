@@ -10,8 +10,6 @@ import { RestaurantSpinDetail } from "./RestaruantSpinDetail";
 import RestuarantSlide from "./RestaurantSlide";
 
 
-
-
 interface IRestaurantListProps{
     lat:number;
     lng:number;
