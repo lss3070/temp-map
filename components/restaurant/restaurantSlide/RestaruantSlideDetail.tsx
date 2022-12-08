@@ -2,23 +2,27 @@ import { faClose } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { motion } from "framer-motion"
 import Image from "next/image";
-import { useRoadStore } from "../../store/road.store";
-import { Button } from "../Common/Button";
+import { RestaurantMark, useRoadStore } from "../../../store/road.store";
+import { Button } from "../../Common/Button";
 
 interface IRestaurantViewProps{
-    name: string,
-    photoUrl:string
-    location:{
-        lat:number,
-        lng:number
-    },
-    place_id:string,
-    vicinity:string,
+    // name: string,
+    // photoUrl:string
+    // location:{
+    //     lat:number,
+    //     lng:number
+    // },
+    // place_id:string,
+    // vicinity:string,
     onRestaurantView:Function;
+    onSpin:()=>void;
+
+    restaurantInfo:RestaurantMark
 }
 
-const RestaurantSpinDetail=({
-    name,photoUrl,location,place_id,vicinity,onRestaurantView
+const RestaurantSlideDetail=({
+    // name,photoUrl,location,place_id,vicinity,
+    onRestaurantView,onSpin,restaurantInfo
 }:IRestaurantViewProps)=>{
 
     const [
@@ -28,9 +32,8 @@ const RestaurantSpinDetail=({
         state.setRoad,
         state.setSelectMark
     ]);
-
-
     
+
     return(
     <motion.div 
         initial={{ opacity: 0, scale: 0.5 }}
@@ -61,31 +64,25 @@ const RestaurantSpinDetail=({
             </div>
             <div className=" w-[500px] h-[400px] relative">
                 <Image
-                    alt={name}
+                    alt={restaurantInfo.name}
                     layout='fill'
-                        src={photoUrl}/>
+                        src={restaurantInfo.photos!}/>
             </div>
             <div className=" font-semibold text-center text-white">
-                {vicinity}
+                {restaurantInfo.vicinity}
             </div>
             <div className=" font-semibold text-center text-white">
-                {name}
+                {restaurantInfo.name}
             </div>
             <div className=" flex w-full ">
                 <div className='w-full flex justify-center gap-5'>
                     <Button onClick={()=>{
                         setRoad(true);
-                        setSelectMark({
-                            name: name,
-                        lat:location.lat,
-                        lng:location.lng,
-                        id:place_id,
-                        photos:photoUrl
-                        });
+                        setSelectMark(restaurantInfo);
                         }}>
                         길찾기
                     </Button>
-                    <Button onClick={()=>{}}>
+                    <Button onClick={onSpin}>
                         다시 돌리기
                     </Button>
                 </div>
@@ -94,4 +91,4 @@ const RestaurantSpinDetail=({
     )
 }
 
-export {RestaurantSpinDetail}
+export {RestaurantSlideDetail}

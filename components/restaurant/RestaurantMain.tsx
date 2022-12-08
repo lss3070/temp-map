@@ -6,9 +6,10 @@ import { flushSync } from "react-dom";
 import useSWR from "swr";
 import { useInterval } from "../../hooks/useInterval";
 import { useRoadStore } from "../../store/road.store";
+import { useSpinStore } from "../../store/spin.store";
 import { getDistance } from "../../utils/getDistance";
-import { RestaurantSpinDetail } from "./RestaruantSpinDetail";
-import RestuarantSlide from "./RestaurantSlide";
+import { RestaurantSlideDetail } from "./restaurantSlide/RestaruantSlideDetail";
+import RestuarantSlide from "./restaurantSlide/RestaurantSlide";
 
 
 interface IRestaurantListProps{
@@ -28,21 +29,33 @@ const RestaurantMain=({lat,lng}:IRestaurantListProps)=>{
         state.setRestaurantMark
     ]);
 
+    const [setSpin,curCenterIndex]=useSpinStore((state)=>[state.setSpin,state.curCenterIndex])
+    
     // const onLoading =useLoadiingStore((state)=>state.onLoading)
     const [onRestaurantInfo,setOnRestaurantInfo]=useState<boolean>(false);
     
     const {data,error}=useSWR(`http://${window.location.host}/api/getRestaurants?lat=${lat}&lng=${lng}`
     ,fetcher)
     
-
     const[randomKey,setRandomKey]=useState<number>(0)
-
-    const deg2rad=(deg:number)=>{
-        return deg*(Math.PI/180)
-    }
 
     const resetRandomKey=()=>{
         setRandomKey(Math.floor(Math.random()*data.length-1))
+    }
+
+    const onSpin=()=>{
+        setOnRestaurantInfo(false)
+        const tempRandomKey= Math.floor((Math.random()*data.length-2)+1);
+        setRandomKey(tempRandomKey)
+        const step= tempRandomKey-curCenterIndex>0?
+        tempRandomKey-curCenterIndex:
+        ((data.length-1)-curCenterIndex)+tempRandomKey+1
+
+        setSpin(true);
+        setTimeout(()=>{
+            setSpin(false);
+            setOnRestaurantInfo(true);
+        },step*100)
     }
 
     useEffect(()=>{
@@ -75,8 +88,6 @@ const RestaurantMain=({lat,lng}:IRestaurantListProps)=>{
         }
     },[onRoad])    
 
-
-
     return(
         <>{
             !onRoad&&(
@@ -85,31 +96,25 @@ const RestaurantMain=({lat,lng}:IRestaurantListProps)=>{
                         z-30 w-[800px] h-[250px]">
                             {
                                 restaurantMark&&(
-                                    <RestuarantSlide data={restaurantMark}
+                                    <RestuarantSlide 
+                                    data={restaurantMark}
                                     randomKey={randomKey}
                                     setRandomKey={setRandomKey}
                                     onRestaurantView={setOnRestaurantInfo}
+                                    onSpin={onSpin}
                                     />
                                 )
                             }
                     </div>
-                   
                     {
                       onRestaurantInfo&&(
-                       <RestaurantSpinDetail
-                       name={data[randomKey].name}
-                       photoUrl={data[randomKey].photos?.length>0?
-                    `https://maps.googleapis.com/maps/api/place/photo?maxwidth=400&photo_reference=${data[randomKey].photos[0].photo_reference}&key=AIzaSyD7hySl2ct4VunK1C99CeZ-9ithi1dlOZY`:
-                    `/assets/noImage.png`
-                    }
-                       place_id={data[randomKey].place_id}
-                       vicinity={data[randomKey].vicinity}
-                       location={data[randomKey].geometry.location}
+                       <RestaurantSlideDetail
+                       restaurantInfo={restaurantMark![randomKey]}
                        onRestaurantView={setOnRestaurantInfo}
+                       onSpin={onSpin}
                        />
                         )
                     }
-                   
             </>
             )
         }

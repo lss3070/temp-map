@@ -54,7 +54,6 @@ const KakaoMap=()=>{
     return(
            <Map  
                 className="w-full h-full"
-                
                  center={
                   centerPosition? 
                   centerPosition:

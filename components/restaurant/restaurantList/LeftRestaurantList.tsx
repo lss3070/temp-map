@@ -4,9 +4,9 @@ import { motion } from "framer-motion";
 import { stat } from "fs";
 import Image from "next/image";
 import { useEffect } from "react";
-import { useMyPositionStore } from "../store/myPosition.store";
-import { useRoadStore } from "../store/road.store"
-import { getDistance } from "../utils/getDistance";
+import { useMyPositionStore } from "../../../store/myPosition.store";
+import { useRoadStore } from "../../../store/road.store"
+import { getDistance } from "../../../utils/getDistance";
 
 const LeftRestaurantList=()=>{
 

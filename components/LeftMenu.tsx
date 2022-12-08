@@ -1,7 +1,7 @@
 import { motion } from "framer-motion"
 import { useEffect } from "react";
 import { useRoadStore } from "../store/road.store";
-import { LeftRestaurantList } from "./LeftRestaurantList"
+import { LeftRestaurantList } from "./restaurant/restaurantList/LeftRestaurantList"
 import { RestaurantDetail } from "./restaurant/RestaurantDetail"
 
 const LeftMenu=()=>{
