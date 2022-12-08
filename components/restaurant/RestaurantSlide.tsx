@@ -3,7 +3,9 @@ import { useEffect, useRef, useState } from "react";
 import Image from "next/image";
 import { flushSync } from "react-dom";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faArrowLeft, faCaretLeft, faCaretRight } from "@fortawesome/free-solid-svg-icons";
+import { faArrowLeft, faCaretLeft, faCaretRight, faLocationDot } from "@fortawesome/free-solid-svg-icons";
+import { getDistance } from "../../utils/getDistance";
+import { useMyPositionStore } from "../../store/myPosition.store";
 
 interface IRestaruantSlide{
     data:any[];
@@ -16,6 +18,7 @@ const RestuarantSlide=({data,randomKey,setRandomKey,onRestaurantView}:IRestaruan
     const ee=useRef<any>()
 
     const [randomSelectIndex,setRandomSelectIndex]=useState<number>();
+    const myPosition=useMyPositionStore((state)=>state.myPosition)
 
     const [curCenterIndex,setCurCenterIndex]=useState<number>(0);
 
@@ -138,6 +141,8 @@ const RestuarantSlide=({data,randomKey,setRandomKey,onRestaurantView}:IRestaruan
                                 scale:0.7
                             }
                         }
+                        const distance= getDistance(myPosition?.lat!,myPosition?.lng!,restaurant.geometry.location.lat,restaurant.geometry.location.lng)
+                        console.log(restaurant)
                         return(
                             <motion.div 
                             key={restaurant.place_id} 
@@ -155,14 +160,16 @@ const RestuarantSlide=({data,randomKey,setRandomKey,onRestaurantView}:IRestaruan
                                 style={{position:'relative'}}>
                                     <Image
                                     fill
-
                                     // sizes="(min-width: 300px) (min-height: 200px)"
-                                    
                                     src={restaurant.photos?.length>0?
                                         `https://maps.googleapis.com/maps/api/place/photo?maxwidth=400&photo_reference=${restaurant.photos[0].photo_reference}&key=AIzaSyD7hySl2ct4VunK1C99CeZ-9ithi1dlOZY`
                                         :'/assets/noImage.png'}
                                     alt={restaurant.name}
                                     />
+                                    <div className=" absolute bottom-2 right-2 rounded-lg bg-gray-400 p-1 px-2 text-white flex gap-2 items-center">
+                                        <FontAwesomeIcon icon={faLocationDot}/>
+                                        {distance} m
+                                    </div>
                                 </div>
                                 <div className="w-full text-center text-white">{restaurant.name}</div>
                             </motion.div>
