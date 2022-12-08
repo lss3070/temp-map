@@ -58,8 +58,8 @@ const KakaoMap=()=>{
                  center={
                   centerPosition? 
                   centerPosition:
-                  { lat: 33.5563, 
-                  lng: 126.79581 }}
+                  { lat: 37.497945847809255, 
+                  lng: 127.02771185232572 }}
                  style={{ width: "100%", height: "100%" }}
                >
                 {
