@@ -3,6 +3,7 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { motion } from "framer-motion"
 import Image from "next/image";
 import { useRoadStore } from "../../store/road.store";
+import { Button } from "../Common/Button";
 
 interface IRestaurantViewProps{
     name: string,
@@ -71,24 +72,22 @@ const RestaurantSpinDetail=({
                 {name}
             </div>
             <div className=" flex w-full ">
-                <div className='w-full flex justify-center'>
-                    <div className=" p-2 rounded-lg bg-gray-500 
-                    font-bold w-20 text-center
-                text-white text-xl  cursor-pointer"
-                onClick={()=>{
-    
-                    setRoad(true)
-                    setSelectMark({
-                        name: name,
+                <div className='w-full flex justify-center gap-5'>
+                    <Button onClick={()=>{
+                        setRoad(true);
+                        setSelectMark({
+                            name: name,
                         lat:location.lat,
                         lng:location.lng,
                         id:place_id,
                         photos:photoUrl
-                    }
-                    )
-                }}>
+                        });
+                        }}>
                         길찾기
-                    </div>
+                    </Button>
+                    <Button onClick={()=>{}}>
+                        다시 돌리기
+                    </Button>
                 </div>
             </div>
         </motion.div>
