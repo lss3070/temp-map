@@ -10,6 +10,9 @@ import PositionLoading from '../components/positionLoading/positionLoading'
 import { RestaurantDetail } from '../components/restaurant/RestaurantDetail'
 import { useRoadStore } from '../store/road.store'
 import styles from '../styles/Home.module.css'
+import { Button } from '../components/Common/Button'
+import DaumPostcodeEmbed from 'react-daum-postcode'
+import { PostModal } from '../components/Post/PostModal'
 
 export default function Home() {
 
@@ -30,10 +33,10 @@ export default function Home() {
       <PositionLoading/>
       <LeftMenu/>
       <RestaurantDetail/>
+      <PostModal/>
       {
             onRoad&&(
                 <motion.div 
-    
                 className=" absolute right-2 bottom-2 w-28 z-10">
                     <div className="z-10 bg-gray-400 p-2 rounded-2xl cursor-pointer 
                     text-white absolute bottom-0 w-full text-center"
@@ -47,6 +50,7 @@ export default function Home() {
                 </motion.div>
             )
         }
+       
     </div>
   )
 }

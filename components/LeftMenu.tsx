@@ -33,10 +33,8 @@ const LeftMenu=()=>{
               ease: [0, 0.71, 0.2, 1.01]
             },
           }}
-        className="absolute top-0 left-0 w-auto h-full z-10  flex">
+        className="absolute top-0 left-0 w-auto h-full z-10 min-w-[250px]  flex">
             <LeftRestaurantList/>
-            
-
         </motion.div>
     )
 }

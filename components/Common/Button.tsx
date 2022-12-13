@@ -9,7 +9,7 @@ const Button=({onClick,children}:PropsWithChildren<IButton>)=>{
         <div 
         onClick={onClick}
         className=" bg-gray-500 p-2 rounded-xl text-white font-semibold
-        cursor-pointe flex gap-2 cursor-pointer ">
+        cursor-pointe flex gap-2 cursor-pointer justify-center">
             {children}
         </div>
     )
