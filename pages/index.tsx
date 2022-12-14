@@ -13,6 +13,7 @@ import styles from '../styles/Home.module.css'
 import { Button } from '../components/Common/Button'
 import DaumPostcodeEmbed from 'react-daum-postcode'
 import { PostModal } from '../components/Post/PostModal'
+import { PositionChange } from '../components/Post/PositionChange'
 
 export default function Home() {
 
@@ -33,7 +34,10 @@ export default function Home() {
       <PositionLoading/>
       <LeftMenu/>
       <RestaurantDetail/>
+      <PositionChange/>
       <PostModal/>
+
+      {/* <PostModal/> */}
       {
             onRoad&&(
                 <motion.div 

@@ -40,6 +40,14 @@ const KakaoMap=()=>{
           })
       }
     },[location])
+    useEffect(()=>{
+      if(myPosition){
+        setCenterPosition({
+       lat:myPosition?.lat!,
+       lng:myPosition?.lng!-0.003
+     })
+    }
+    },[myPosition])
 
     useEffect(()=>{
       if(selectMark){
@@ -48,7 +56,6 @@ const KakaoMap=()=>{
         lng:selectMark?.lng!-0.005
       })
       }
-     
     },[selectMark])
 
     return(
@@ -64,7 +71,6 @@ const KakaoMap=()=>{
                 {
                   onRoad&&myPosition&&(
                     <Circle
-                    
                     radius={500}
                     strokeWeight={5} // 선의 두께입니다
                     strokeColor={"#75B8FA"} // 선의 색깔입니다
