@@ -11,6 +11,7 @@ import { RestaurantMain } from "../restaurant/RestaurantMain";
 import Mark from "../Mark";
 import { RoadGuide } from "./RoadGuide";
 import { IMyPoistion, useMyPositionStore } from "../../store/myPosition.store";
+import { useInitPositionStore } from "../../store/initPosition.store";
 
 
 const KakaoMap=()=>{
@@ -18,7 +19,8 @@ const KakaoMap=()=>{
 
     const [myPosition,setMyPosition]=useMyPositionStore((state)=>[state.myPosition,state.setMyPosition])
 
-    const [centerPosition,setCenterPosition] = useState<IMyPoistion>()
+    const [centerPosition,setCenterPosition] = useState<IMyPoistion>();
+    const setInitPosition=useInitPositionStore((state)=>state.setInitPosition);
     const [
       onRoad,
       selectMark
@@ -34,7 +36,7 @@ const KakaoMap=()=>{
             lat:location.coordinates?.lat!,
             lng:location.coordinates?.lng!
           })
-          setCenterPosition({
+          setInitPosition({
             lat:location.coordinates?.lat!,
             lng:location.coordinates?.lng!
           })
