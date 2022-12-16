@@ -32,7 +32,6 @@ const Mark=({myPosition,setMyPosition}:IRoadProps)=>{
         {/* My Position */}
         <>
             <MapMarker
-        
             onClick={()=>setSelectMark(undefined)}
                     image={{
                         src: '/assets/human.png',

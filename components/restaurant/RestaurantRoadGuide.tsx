@@ -15,8 +15,6 @@ const RestaurantRoadGuide=()=>{
                 <div className="flex items-center justify-center gap-2 items-center">
                     <p>{Math.floor(+roadGuide?.totalTime!/60)} 분</p>
                     <p>{roadGuide?.totalDistance}m</p>
-                    
-                    
                 </div>
                 <FontAwesomeIcon className="cursor-pointer" 
                 onClick={()=>setOnDown(!onDown)}

@@ -3,21 +3,33 @@ import { useEffect, useRef, useState } from "react";
 import Image from "next/image";
 import { flushSync } from "react-dom";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faArrowLeft, faCaretLeft, faCaretRight } from "@fortawesome/free-solid-svg-icons";
+import { faArrowLeft, faCaretLeft, faCaretRight, faLocationDot } from "@fortawesome/free-solid-svg-icons";
+import { getDistance } from "../../../utils/getDistance";
+import { useMyPositionStore } from "../../../store/myPosition.store";
+import { Button } from "../../Common/Button";
+import { RestaurantMark, useRoadStore } from "../../../store/road.store";
+import { useInterval } from "../../../hooks/useInterval";
+import { useSpinStore } from "../../../store/spin.store";
 
 interface IRestaruantSlide{
-    data:any[];
+    data:RestaurantMark[];
     randomKey:number;
     setRandomKey:(key:number)=>void;
     onRestaurantView:Function;
+    onSpin:()=>void;
 }
 
-const RestuarantSlide=({data,randomKey,setRandomKey,onRestaurantView}:IRestaruantSlide)=>{
-    const ee=useRef<any>()
+const RestuarantSlide=({data,randomKey,setRandomKey,onRestaurantView,onSpin}:IRestaruantSlide)=>{
 
-    const [randomSelectIndex,setRandomSelectIndex]=useState<number>();
+    const [setRoad,setSelectMark]=useRoadStore((state)=>[state.setRoad,state.setSelectMark]);
 
-    const [curCenterIndex,setCurCenterIndex]=useState<number>(0);
+    const [spin,curCenterIndex,setSpin,setCurCenterIndex]=useSpinStore((state)=>[
+        state.spin,
+        state.curCenterIndex,
+        state.setSpin,
+        state.setCurCenterIndex
+    ])
+
 
     const assiingLeft=(index:number)=>{
         if(curCenterIndex===0){
@@ -32,28 +44,33 @@ const RestuarantSlide=({data,randomKey,setRandomKey,onRestaurantView}:IRestaruan
        return index===curCenterIndex+1;
     }
 
-    const Random =()=>{
-
-
-
-        const tempRandomKey= Math.floor((Math.random()*data.length-2)+1);
-
-        setRandomSelectIndex(tempRandomKey)
-        setRandomKey(tempRandomKey)
-        const step= tempRandomKey-curCenterIndex>0?
-        tempRandomKey-curCenterIndex:
-        ((data.length-1)-curCenterIndex)+tempRandomKey+1
-
-        for(let i=1;i<=step;i++){
-            setTimeout(()=>{
-                ee.current.click();
-            },100*i)
+    useInterval(()=>{
+        if(spin){
+            setCurCenterIndex(curCenterIndex===data.length-1?0:curCenterIndex+1)
         }
+    },100)
 
-        setTimeout(()=>{
-            onRestaurantView(true);
-        },100*step)
+
+    const ShowAroundMe=()=>{
+        setRoad(true);
     }
+
+    const FindNearestRestaurant=()=>{
+        setRoad(true)
+        const list= [...data].sort((a,b)=>a.distance!-b.distance!)
+        console.log('!@!@')
+        console.log(list);
+        const minDistandRestaurant =list[0]
+        setSelectMark({
+            name: minDistandRestaurant.name,
+            lat:minDistandRestaurant.lat,
+            lng:minDistandRestaurant.lng,
+            id:minDistandRestaurant.id,
+            photos:minDistandRestaurant.photos
+        });
+    }
+
+
 
     const ViewClickEvent=(position:string)=>{
         switch(position){
@@ -97,7 +114,7 @@ const RestuarantSlide=({data,randomKey,setRandomKey,onRestaurantView}:IRestaruan
                 relative inline-block whitespace-nowrap overflow-scroll scroll-m-4
                 ">
                 {//0~19
-                    data&&data.map((restaurant:any,index:number)=>{
+                    data&&data.map((restaurant,index:number)=>{
                         let position =''
                         let motionStyle:any
                         if(curCenterIndex===index){
@@ -138,9 +155,9 @@ const RestuarantSlide=({data,randomKey,setRandomKey,onRestaurantView}:IRestaruan
                                 scale:0.7
                             }
                         }
-                        return(
+                                               return(
                             <motion.div 
-                            key={restaurant.place_id} 
+                            key={restaurant.id} 
                             animate={motionStyle}
                             onScroll={(e)=>console.log(e)}
                             onClick={()=>ViewClickEvent(position)}
@@ -151,18 +168,20 @@ const RestuarantSlide=({data,randomKey,setRandomKey,onRestaurantView}:IRestaruan
                             w-[300px] h-[250px] 
                             inline-block
                             `} >
-                                <div className={`w-[300px] h-[200px]  ${randomSelectIndex===index?`border-2 border-red-500`:``}`} 
+                                <div className={`w-[300px] h-[200px]  ${randomKey===index?`border-2 border-red-500`:``}`} 
                                 style={{position:'relative'}}>
                                     <Image
                                     fill
-
                                     // sizes="(min-width: 300px) (min-height: 200px)"
-                                    
-                                    src={restaurant.photos?.length>0?
-                                        `https://maps.googleapis.com/maps/api/place/photo?maxwidth=400&photo_reference=${restaurant.photos[0].photo_reference}&key=AIzaSyD7hySl2ct4VunK1C99CeZ-9ithi1dlOZY`
+                                    src={restaurant.photos?
+                                        restaurant.photos
                                         :'/assets/noImage.png'}
                                     alt={restaurant.name}
                                     />
+                                    <div className=" absolute bottom-2 right-2 rounded-lg bg-gray-400 p-1 px-2 text-white flex gap-2 items-center">
+                                        <FontAwesomeIcon icon={faLocationDot}/>
+                                        {restaurant.distance} m
+                                    </div>
                                 </div>
                                 <div className="w-full text-center text-white">{restaurant.name}</div>
                             </motion.div>
@@ -179,19 +198,23 @@ const RestuarantSlide=({data,randomKey,setRandomKey,onRestaurantView}:IRestaruan
                 </div>
              </div>
           
-            <div className="hidden"
+            {/* <div className="hidden"
             ref={ee}
             onClick={()=>{
                  setCurCenterIndex(curCenterIndex===data.length-1?0:curCenterIndex+1)}}>
-                앞</div>
-                <div className="w-full justify-center items-center flex">
-                    <div className=" bg-gray-500 p-2 rounded-2xl text-white font-semibold
-                     cursor-pointer"
-                    onClick={()=>Random()}
-                    >
+                앞
+            </div> */}
+            <div className="w-full justify-center items-center flex gap-2">
+                <Button onClick={onSpin}>
                     돌리기
-                    </div>
-                </div>
+                </Button>
+                <Button onClick={ShowAroundMe}>
+                    내 주변 보기
+                </Button>
+                <Button onClick={FindNearestRestaurant}>
+                    가장 가까운 매장
+                </Button>
+            </div>
         </div>
     )
 }

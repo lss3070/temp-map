@@ -11,6 +11,7 @@ import { RestaurantMain } from "../restaurant/RestaurantMain";
 import Mark from "../Mark";
 import { RoadGuide } from "./RoadGuide";
 import { IMyPoistion, useMyPositionStore } from "../../store/myPosition.store";
+import { useInitPositionStore } from "../../store/initPosition.store";
 
 
 const KakaoMap=()=>{
@@ -18,7 +19,8 @@ const KakaoMap=()=>{
 
     const [myPosition,setMyPosition]=useMyPositionStore((state)=>[state.myPosition,state.setMyPosition])
 
-    const [centerPosition,setCenterPosition] = useState<IMyPoistion>()
+    const [centerPosition,setCenterPosition] = useState<IMyPoistion>();
+    const setInitPosition=useInitPositionStore((state)=>state.setInitPosition);
     const [
       onRoad,
       selectMark
@@ -34,12 +36,20 @@ const KakaoMap=()=>{
             lat:location.coordinates?.lat!,
             lng:location.coordinates?.lng!
           })
-          setCenterPosition({
+          setInitPosition({
             lat:location.coordinates?.lat!,
             lng:location.coordinates?.lng!
           })
       }
     },[location])
+    useEffect(()=>{
+      if(myPosition){
+        setCenterPosition({
+       lat:myPosition?.lat!,
+       lng:myPosition?.lng!-0.003
+     })
+    }
+    },[myPosition])
 
     useEffect(()=>{
       if(selectMark){
@@ -48,24 +58,21 @@ const KakaoMap=()=>{
         lng:selectMark?.lng!-0.005
       })
       }
-     
     },[selectMark])
 
     return(
            <Map  
                 className="w-full h-full"
-                
                  center={
                   centerPosition? 
                   centerPosition:
-                  { lat: 33.5563, 
-                  lng: 126.79581 }}
+                  { lat: 37.497945847809255, 
+                  lng: 127.02771185232572 }}
                  style={{ width: "100%", height: "100%" }}
                >
                 {
                   onRoad&&myPosition&&(
                     <Circle
-                    
                     radius={500}
                     strokeWeight={5} // 선의 두께입니다
                     strokeColor={"#75B8FA"} // 선의 색깔입니다

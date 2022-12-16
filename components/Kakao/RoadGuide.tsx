@@ -21,7 +21,11 @@ const RoadGuide=({myPosition}:PropsWithChildren<IRoadGuide>)=>{
     ])
 
 
-    const [roadGuide,setRoadGuide]=useRoadGuideStore((state)=>[state.roadGuide,state.setRoadGuide]);
+    const [roadGuide,setRoadGuide,initRoadGuide]=useRoadGuideStore((state)=>
+    [state.roadGuide,
+    state.setRoadGuide,
+    state.initRoadGuide
+]);
 
     // const [linePath,setLinePath]=useState<Position[]>()
 
@@ -79,7 +83,6 @@ const RoadGuide=({myPosition}:PropsWithChildren<IRoadGuide>)=>{
                     })
                 }
             })
-
             setRoadGuide({
                 totalDistance:data.features[0].properties.totalDistance,
                 totalTime:data.features[0].properties.totalTime,
@@ -89,6 +92,10 @@ const RoadGuide=({myPosition}:PropsWithChildren<IRoadGuide>)=>{
             // setLinePath(tempItem)  
         })
     },[selectMark])
+
+    useEffect(()=>{
+        initRoadGuide();
+    },[myPosition])
 
     return(
         <>

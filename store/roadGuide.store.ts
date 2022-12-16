@@ -19,9 +19,11 @@ type IRoadGuide={
 interface IRoadGuideStoreProps{
     roadGuide?:IRoadGuide;
     setRoadGuide:(roadGuide:IRoadGuide)=>void;
+    initRoadGuide:()=>void;
 }
 export const useRoadGuideStore=create<IRoadGuideStoreProps>((set)=>({
     setRoadGuide:(roadGuide)=>set((state)=>({roadGuide})),
+    initRoadGuide:()=>set((state)=>({roadGuide:undefined}))
 }));
 
 
