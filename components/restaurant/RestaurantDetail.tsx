@@ -35,6 +35,7 @@ const RestaurantDetail=()=>{
             .then(data=>data.json())
             .then(json=>{
                 console.log(json)
+                const sortReviews = json.reviews.sort((a:any,b:any)=>b.time-a.time)
                 setRestaurantDetail({
                     address:json.formatted_address,
                     phone:json.formatted_phone_number,
@@ -43,7 +44,7 @@ const RestaurantDetail=()=>{
                     priceLevel:json.price_level,
                     rating:json.rating,
                     userRatingTotla:json.user_ratings_total,
-                    reviews:json.reviews,
+                    reviews:sortReviews,
                     photos:json.photos,
                     openingHours:json.opening_hours,
                 })

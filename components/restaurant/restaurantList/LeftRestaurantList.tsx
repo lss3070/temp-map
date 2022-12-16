@@ -78,7 +78,12 @@ const ListTemplate=({list}:PropsWithChildren<IRestaurantTemplate>)=>{
         <>
         {
             list?.map((restaurant,index)=>{
-                return <div key={index} className='w-full flex gap-2'>
+                return <div key={index} 
+                className={`w-full flex gap-2 cursor-pointer
+                ${selectMark?.id===restaurant.id?` bg-blue-400 bg-opacity-90`:`hover:bg-blue-100 hover:bg-opacity-90  bg-white`}
+                `}
+                onClick={()=>setSelectMark(restaurant)}
+                >
                     <div>{restaurant.name}</div>
                     <div>{restaurant.distance}m</div>
                 </div>
@@ -156,7 +161,7 @@ const LeftRestaurantList=()=>{
                         </div>
                     </div>
                     <div>
-                        <div className="w-full flex justify-end">
+                        <div className="w-full flex justify-end py-1">
                             <SelectList/>
                         </div>
                     </div>

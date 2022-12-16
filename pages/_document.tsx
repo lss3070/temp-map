@@ -15,6 +15,11 @@ export default function Document() {
         strategy="beforeInteractive"
           src={`https://openapi.map.naver.com/openapi/v3/maps.js?ncpClientId=m6bcbwpcqv`}
         />
+        <Script
+        src="https://t1.kakaocdn.net/kakao_js_sdk/2.0.0/kakao.min.js"
+        integrity="sha384-PFHeU/4gvSH8kpvhrigAPfZGBDPs372JceJq3jAXce11bVA6rMvGWzvP4fMQuBGL"
+        // crossorigin="anonymous"
+        />
         </Head>
         <body>
           <Main />

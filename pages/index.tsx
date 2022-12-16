@@ -14,6 +14,10 @@ import { Button } from '../components/Common/Button'
 import DaumPostcodeEmbed from 'react-daum-postcode'
 import { PostModal } from '../components/Post/PostModal'
 import { PositionChange } from '../components/Post/PositionChange'
+import { Login } from '../components/Login/Login'
+import dynamic from 'next/dynamic'
+
+
 
 export default function Home() {
 
@@ -36,6 +40,7 @@ export default function Home() {
       <RestaurantDetail/>
       <PositionChange/>
       <PostModal/>
+      {/* <Login/> */}
 
       {/* <PostModal/> */}
       {
