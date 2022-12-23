@@ -80,7 +80,7 @@ const RestaurantDetail=()=>{
               ease: [0, 0.71, 0.2, 1.01]
             },
           }}
-        className="h-full w-[320px] bg-gray-400 left-[250px] top-0 absolute z-[9]  grid gap-2 px-2 overflow-scroll items-center">
+        className="h-full w-[320px] bg-gray-400 left-[250px] top-0 absolute z-[9]  grid gap-2 px-2 overflow-scroll items-center overflow-x-hidden">
             {
                 restaurantDetail&&(
                     <>

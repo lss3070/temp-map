@@ -6,13 +6,8 @@ import { RestaurantDetail } from "./restaurant/RestaurantDetail"
 
 const LeftMenu=()=>{
 
-    const [onRoad,
-        selectMarker,
-        setSelectMark,
-        setRoad
-    ]=useRoadStore((state)=>[state.onRoad,
-        state.selectMark,
-        state.setSelectMark,state.setRoad]);
+    const onRoad
+    =useRoadStore((state)=>state.onRoad);
 
     const container={
         hidden:{opacity: 0, translateX: '-100%'},
@@ -33,7 +28,7 @@ const LeftMenu=()=>{
               ease: [0, 0.71, 0.2, 1.01]
             },
           }}
-        className="absolute top-0 left-0 w-auto h-full z-10 min-w-[250px]  flex">
+        className="absolute top-0 left-0 w-auto h-full z-10 min-w-[250px]  flex overflow-x-hidden">
             <LeftRestaurantList/>
         </motion.div>
     )

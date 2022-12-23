@@ -42,6 +42,7 @@ const KakaoMap=()=>{
           })
       }
     },[location])
+
     useEffect(()=>{
       if(myPosition){
         setCenterPosition({

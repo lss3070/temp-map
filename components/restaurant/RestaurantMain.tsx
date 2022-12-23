@@ -22,12 +22,18 @@ const RestaurantMain=({lat,lng}:IRestaurantListProps)=>{
     const [
         onRoad,
         restaurantMark,
-        setRestaurantMark
+        setRestaurantMark,
+        selectMark,
+        setSelectMark
     ]=useRoadStore((state)=>[
         state.onRoad,
         state.restaurantMark,
-        state.setRestaurantMark
+        state.setRestaurantMark,
+        state.selectMark,
+        state.setSelectMark
     ]);
+
+
 
     const [setSpin,curCenterIndex]=useSpinStore((state)=>[state.setSpin,state.curCenterIndex])
     
@@ -58,9 +64,48 @@ const RestaurantMain=({lat,lng}:IRestaurantListProps)=>{
         },step*100)
     }
 
+
     useEffect(()=>{
+        Test();
+    },
+    [data])
+
+    const Test=()=>{
         if(data){
             const list = data.map((item:any)=>{
+                const distance = getDistance(lat,lng,item.geometry.location.lat,item.geometry.location.lng)
+                return{
+                    name:item.name,
+                    id:item.place_id,
+                    lat:item.geometry.location.lat,
+                    lng:item.geometry.location.lng,
+                    photos:item.photos?.length>0?
+                    `https://maps.googleapis.com/maps/api/place/photo?maxwidth=400&photo_reference=${item.photos[0].photo_reference}&key=AIzaSyA5i5Z8V7X9X5o4Q2z4e4y8Y7d5Lj5m7ZM`:
+                    "/assets/noimage.png",
+                    distance:distance,
+                    rating:item.rating
+                }
+            })
+            setRestaurantMark(list);
+        }
+    }
+
+
+    useEffect(()=>{
+        let selectMarkService=false;
+
+        if(getDistance(lat,lng,selectMark?.lat!,selectMark?.lng!)<500){
+            selectMarkService=true;
+        }
+        console.log(getDistance(lat,lng,selectMark?.lat!,selectMark?.lng!))
+
+        if(data){
+            const list = data.map((item:any)=>{
+
+                // if(item.place_id===selectMark?.id) {
+                //     selectMarkService=true;
+                // }
+
                const distance = getDistance(lat,lng,item.geometry.location.lat,item.geometry.location.lng)
                 return{
                     name:item.name,
@@ -79,7 +124,12 @@ const RestaurantMain=({lat,lng}:IRestaurantListProps)=>{
             list.sort((a:any,b:any)=>a.distance-b.distance)
             setRestaurantMark(list);
             resetRandomKey()
+
         }
+        // console.log('selectMarkService')
+        // console.log(selectMarkService)
+        // console.log(checklist);
+        if(!selectMarkService)setSelectMark(undefined)
     },[data])
 
     useEffect(()=>{

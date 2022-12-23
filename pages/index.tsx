@@ -40,7 +40,7 @@ export default function Home() {
       <RestaurantDetail/>
       <PositionChange/>
       <PostModal/>
-      {/* <Login/> */}
+      <Login/>
 
       {/* <PostModal/> */}
       {
