@@ -87,14 +87,6 @@ const SelectList=({}:PropsWithChildren)=>{
                     <div className=" absolute top-5 bg-white border w-full">
                         <div 
                         onClick={()=>{
-                            setShowName(ListSortType.FarDistance)
-                            setShowList(false);
-                        }}
-                        className="px-2 hover:bg-gray-400 bg-opacity-70 cursor-pointer">
-                            거리 먼순
-                            </div>
-                        <div 
-                        onClick={()=>{
                             setShowName(ListSortType.NearDistance)
                             setShowList(false);
                         }}
@@ -103,19 +95,19 @@ const SelectList=({}:PropsWithChildren)=>{
                             </div>
                         <div 
                         onClick={()=>{
-                            setShowName(ListSortType.LowStar)
-                            setShowList(false);
-                        }}
-                        className="px-2 hover:bg-gray-400 bg-opacity-70 cursor-pointer">
-                            별점 낮은순
-                            </div>
-                        <div 
-                        onClick={()=>{
                             setShowName(ListSortType.HightStar)
                             setShowList(false);
                         }}
                         className="px-2 hover:bg-gray-400 bg-opacity-70 cursor-pointer">
-                            별점 높은순
+                            별점 순
+                            </div>
+                        <div 
+                        onClick={()=>{
+                            // setShowName(ListSortType.HightStar)
+                            // setShowList(false);
+                        }}
+                        className="px-2 hover:bg-gray-400 bg-opacity-70 cursor-pointer">
+                            리뷰 순
                             </div>
                     </div>
                 )

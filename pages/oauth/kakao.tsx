@@ -1,5 +1,6 @@
 import axios from "axios";
 import { useEffect } from "react";
+import { useTokenStore } from "../../store/token.store";
 
 const getToken = async (code: string | null) => {
     try {
@@ -30,8 +31,7 @@ const KaKao=()=>{
         console.log('accesstoken');
         console.log(accesstoken);
         accesstoken.then((token)=>{
-          console.log('accesstoken');
-          console.log(token);
+
           if(token){
             localStorage.setItem('token',token)
             window.close();

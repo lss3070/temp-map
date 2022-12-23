@@ -26,13 +26,21 @@ const Mark=({myPosition,setMyPosition}:IRoadProps)=>{
         state.setSelectMark
     ])
 
+    const myPositionChangeEvent=(e:kakao.maps.Marker)=>{
+        const position = e.getPosition();
+        const newMyPosition = {
+            lat:position.getLat(),
+            lng:position.getLng()
+        }
+        setMyPosition(newMyPosition);
+    }
 
     return(
         <>
         {/* My Position */}
         <>
             <MapMarker
-            onClick={()=>setSelectMark(undefined)}
+           
                     image={{
                         src: '/assets/human.png',
                         size:{
@@ -41,14 +49,7 @@ const Mark=({myPosition,setMyPosition}:IRoadProps)=>{
                         }
                     }} 
             draggable={true}
-            onDragEnd={(e)=>{
-                const position = e.getPosition();
-                setMyPosition({
-                    lat:position.getLat(),
-                    lng:position.getLng()
-                });
-                setSelectMark(undefined)
-            }}
+            onDragEnd={myPositionChangeEvent}
             position={myPosition}>
             </MapMarker>
             <CustomOverlayMap
@@ -78,32 +79,7 @@ const Mark=({myPosition,setMyPosition}:IRoadProps)=>{
                             </div>
                         </CustomOverlayMap>
         </>
-         
-        {/* 가게위치 */}
-        {
-            restaurantMark?.map((item,index)=>{
-                return(
-                    item.id!==selectMark?.id?(
-                        <>
-                            <MapMarker key={index}
-                            onClick={()=>setSelectMark(item)}
-                            image={{
-                                src: '/assets/blackMark.png',
-                                size:{
-                                    width:30,
-                                    height:30
-                                }
-                            }} 
-                            position={{
-                                lat:item.lat,lng:item.lng
-                            }}>
-                                {/* {item.name} */}
-                            </MapMarker>
-                        </>
-                       
-                    ):(
-                    <> 
-                        <MapMarker
+        <MapMarker
                         image={{
                             src: '/assets/blueMark.png',
                             size:{
@@ -121,8 +97,8 @@ const Mark=({myPosition,setMyPosition}:IRoadProps)=>{
                             xAnchor={0.5}
                             yAnchor={2.2}
                             position={{
-                                lat:item.lat,
-                                lng:item.lng
+                                lat:selectMark?.lat!,
+                                lng:selectMark?.lng!
                             }}
                         >
                             <div className="
@@ -136,11 +112,32 @@ const Mark=({myPosition,setMyPosition}:IRoadProps)=>{
                             w-auto h-7 px-2" 
                             >
                                 <div className="h-full w-full">
-                                    {item.name}
+                                    {selectMark?.name}
                                 </div>
                             </div>
                         </CustomOverlayMap>
-                    </>
+        {/* 가게위치 */}
+        {
+            restaurantMark?.map((item,index)=>{
+                return(
+                    item.id!==selectMark?.id&&(
+                        <>
+                            <MapMarker key={index}
+                            onClick={()=>setSelectMark(item)}
+                            image={{
+                                src: '/assets/blackMark.png',
+                                size:{
+                                    width:30,
+                                    height:30
+                                }
+                            }} 
+                            position={{
+                                lat:item.lat,lng:item.lng
+                            }}>
+                                {/* {item.name} */}
+                            </MapMarker>
+                        </>
+                       
                     )
                    
                 )

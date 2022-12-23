@@ -1,4 +1,4 @@
-import { faImage, faList, faLocationDot, faMarker, faSortUp, faStar, faWon } from "@fortawesome/free-solid-svg-icons";
+import { faImage, faList, faLocationDot, faMarker, faSortUp, faStar, faStarHalf, faWon } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { motion } from "framer-motion";
 import { stat } from "fs";
@@ -74,18 +74,44 @@ const ListTemplate=({list}:PropsWithChildren<IRestaurantTemplate>)=>{
         state.selectMark,
         state.setSelectMark,
     ]);
+
+    const starSetting=(star:number)=>{
+
+        const checkHalf = !Number.isInteger(star);
+        const floarNumber = Math.floor(star);
+        const starArray=[];
+        for(let i=0;i<5;i++){
+            if(i<floarNumber){
+                starArray.push(<FontAwesomeIcon color="yellow" icon={faStar}/>)
+            }else if(i===Math.floor(star)&&checkHalf===true){
+                starArray.push(<FontAwesomeIcon color="yellow" icon={faStarHalf}/>)
+            }
+            else{
+                starArray.push(<FontAwesomeIcon icon ={faStar}/>)
+            }
+          
+        }
+        return starArray;
+    }   
+
     return(
         <>
         {
             list?.map((restaurant,index)=>{
                 return <div key={index} 
-                className={`w-full flex gap-2 cursor-pointer
+                className={`w-full grid gap-2 cursor-pointer
                 ${selectMark?.id===restaurant.id?` bg-blue-400 bg-opacity-90`:`hover:bg-blue-100 hover:bg-opacity-90  bg-white`}
                 `}
                 onClick={()=>setSelectMark(restaurant)}
                 >
-                    <div>{restaurant.name}</div>
-                    <div>{restaurant.distance}m</div>
+                    <div className="">
+                        {starSetting(restaurant.rating!)}
+                        {restaurant.rating}/5
+                    </div>
+                    <div className="flex px-4">
+                        <div className="w-full">{restaurant.name}</div>
+                        <div className="w-full text-end">{restaurant.distance}m</div>
+                    </div>
                 </div>
             })
         }
@@ -96,7 +122,7 @@ const ListTemplate=({list}:PropsWithChildren<IRestaurantTemplate>)=>{
 
 const LeftRestaurantList=()=>{
 
-    const [listType,setListType]=useState<EListType>(EListType.text)
+    const [listType,setListType]=useState<EListType>(EListType.image)
 
     const areaRef=useRef<HTMLDivElement>(null)
     const myPosition=useMyPositionStore((state)=>state.myPosition)
@@ -145,8 +171,8 @@ const LeftRestaurantList=()=>{
         {
                 <div 
                 ref={areaRef}
-                className="grid py-5 bg-gray-300 overflow-y-scroll z-10 relative w-full">
-                    <div className="flex w-full border">
+                className="py-5 bg-gray-300 overflow-y-scroll z-10 relative w-full">
+                    <div className="flex w-full border h-10">
                         <div onClick={()=>setListType(EListType.image)}
                         className="w-full text-center flex items-center justify-center gap-2 
                         cursor-pointer hover:bg-slate-400 hover:text-white">
@@ -160,16 +186,17 @@ const LeftRestaurantList=()=>{
                             <p>게시판</p>
                         </div>
                     </div>
-                    <div>
-                        <div className="w-full flex justify-end py-1">
-                            <SelectList/>
-                        </div>
+                    <div className="w-full h-10 flex justify-end py-[10px]">
+                        <SelectList/>
                     </div>
+                    <div className="h-full">
                     {
-                        listType===EListType.image?
-                        <ImageTemplate list={restuarantMark!}/>:
-                        <ListTemplate list={restuarantMark!}/>
+                        listType===EListType.text?
+                        <ListTemplate list={restuarantMark!}/>:
+                        <ImageTemplate list={restuarantMark!}/>
                     }
+                    </div>
+                  
                     <div className="fixed right-2 bottom-2 rounded-full w-9 h-9  bg-gray-500 flex
                     items-center justify-center cursor-pointer z-50 text-white" 
                     onClick={scrollTop}

@@ -1,3 +1,4 @@
+import axios from "axios";
 import { ChildContextProvider, PropsWithChildren, useEffect, useState } from "react"
 import { Polyline } from "react-kakao-maps-sdk"
 import { useRoadStore } from "../../store/road.store";
@@ -30,7 +31,10 @@ const RoadGuide=({myPosition}:PropsWithChildren<IRoadGuide>)=>{
     // const [linePath,setLinePath]=useState<Position[]>()
 
     useEffect(()=>{
-        if(!(selectMark&&myPosition)) return
+        if(selectMark===undefined) {
+            initRoadGuide();
+            return
+        }
         fetch('https://apis.openapi.sk.com/tmap/routes/pedestrian?version=1&format=json&callback=result',{
             method:'POST',
             headers: {
@@ -91,11 +95,13 @@ const RoadGuide=({myPosition}:PropsWithChildren<IRoadGuide>)=>{
             })
             // setLinePath(tempItem)  
         })
-    },[selectMark])
+    },[selectMark,myPosition])
 
-    useEffect(()=>{
-        initRoadGuide();
-    },[myPosition])
+
+
+    // useEffect(()=>{
+        // initRoadGuide();
+    // },[myPosition])
 
     return(
         <>
