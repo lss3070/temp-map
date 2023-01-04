@@ -111,7 +111,7 @@ const RestuarantSlide=({data,randomKey,setRandomKey,onRestaurantView,onSpin}:IRe
                 // animate={controls}
                 // ref={elementRef}
                 className="w-full h-full
-                relative inline-block whitespace-nowrap overflow-scroll scroll-m-4
+                relative inline-block whitespace-nowrap overflow-hidden scroll-m-4
                 ">
                 {//0~19
                     data&&data.map((restaurant,index:number)=>{
@@ -163,7 +163,7 @@ const RestuarantSlide=({data,randomKey,setRandomKey,onRestaurantView,onSpin}:IRe
                             onClick={()=>ViewClickEvent(position)}
                             className={`
                             cursor-pointer
-                            overflow-scroll
+                            overflow-hidden
                             absolute 
                             w-[300px] h-[250px] 
                             inline-block
