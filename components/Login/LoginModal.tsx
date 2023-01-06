@@ -1,14 +1,16 @@
 import axios from "axios";
 import { useForm } from "react-hook-form";
-import { useLoginModalStore } from "../../store/login.store";
+import { useLoginStore } from "../../store/login.store";
+
 import { useTokenStore } from "../../store/token.store";
 
-const LoginModal=()=>{
 
-    const [onModal,setModal]= useLoginModalStore((state)=>[state.onModal,state.setModal])
+
+const LoginModal=()=>{
+    const [onModal,setModal]= useLoginStore((state)=>[state.onLoginModal,state.setLoginModal])
 
     const { register, handleSubmit, watch, formState: { errors } } = useForm();
-    const setToken = useTokenStore((state)=>state.setToken)
+    // const setToken = useTokenStore((state)=>state.setToken)
 
     const onLogin=(data:any)=>{
         console.log(data)
@@ -22,16 +24,18 @@ const LoginModal=()=>{
         popup?.addEventListener('beforeunload',()=>{
             const token= localStorage.getItem('token');
 
+
             console.log(token)
             document.cookie=`token=${token}`
             axios.get(`${process.env.NEXT_PUBLIC_FIREBASE_URL}/kakaoLogin`,
             {
                 headers:{
+                    'Content-Type': 'application/json',
                     cookie:`token=${token};`
                 },
                 withCredentials: true
             })
-            setToken(token!);
+            // setToken(token!);
         })} 
         
     return(

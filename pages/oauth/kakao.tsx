@@ -1,6 +1,5 @@
 import axios from "axios";
 import { useEffect } from "react";
-import { useTokenStore } from "../../store/token.store";
 
 const getToken = async (code: string | null) => {
     try {

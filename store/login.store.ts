@@ -2,10 +2,10 @@ import create from 'zustand'
 
 
 interface ILoginStoreProps{
-    onModal:boolean;
-    setModal:(onModal:boolean)=>void;
+    onLoginModal:boolean;
+    setLoginModal:(onLoginModal:boolean)=>void;
 }
-export const useLoginModalStore=create<ILoginStoreProps>((set)=>({
-    onModal:false,
-    setModal:(onModal)=>set((state)=>({onModal})),
+export const useLoginStore=create<ILoginStoreProps>((set)=>({
+    onLoginModal:false,
+    setLoginModal:(onLoginModal)=>set((state)=>({onLoginModal})),
 }));
