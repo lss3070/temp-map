@@ -16,6 +16,7 @@ import { PostModal } from '../components/Post/PostModal'
 import { PositionChange } from '../components/Post/PositionChange'
 import { Login } from '../components/Login/Login'
 import dynamic from 'next/dynamic'
+import { LoginModal } from '../components/Login/LoginModal'
 
 
 
@@ -40,6 +41,7 @@ export default function Home() {
       <RestaurantDetail/>
       <PositionChange/>
       <PostModal/>
+      <LoginModal/>
       <Login/>
 
       {/* <PostModal/> */}
