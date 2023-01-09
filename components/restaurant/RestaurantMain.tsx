@@ -67,8 +67,22 @@ const RestaurantMain=({lat,lng}:IRestaurantListProps)=>{
 
     useEffect(()=>{
         Test();
-    },
-    [data])
+        if(data){
+            const tempData = data?.map((item:any)=>{
+                return {
+                    id:item.place_id,
+                    address:item.vicinity,
+                    name:item.name,
+                    position:item.geometry.location
+                }
+            })
+            axios.post(`${process.env.NEXT_PUBLIC_FIREBASE_URL}/app/setRestaurant`,tempData).then((data)=>
+            {
+                console.log(data)
+            })
+        }
+       
+    },[data])
 
     const Test=()=>{
         if(data){

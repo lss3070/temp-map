@@ -1,5 +1,5 @@
 // Next.js API route support: https://nextjs.org/docs/api-routes/introduction
-import axios from 'axios'
+import axios, { AxiosError } from 'axios'
 import type { NextApiRequest, NextApiResponse } from 'next'
 
 type Data = {
@@ -18,9 +18,28 @@ export default async function handler(
   res: NextApiResponse<any>
 ) {
 
-  const detail = await axios.get(`https://maps.googleapis.com/maps/api/place/details/json?place_id=${req.query.id}&key=AIzaSyD7hySl2ct4VunK1C99CeZ-9ithi1dlOZY&language=ko`)
+  try{
 
-  res.status(200).json(detail.data.result)
+    console.log("!!!!!")
+    console.log(req.query.id);
+    const detail = await axios.get(`https://maps.googleapis.com/maps/api/place/details/json?place_id=${req.query.id}&key=AIzaSyD7hySl2ct4VunK1C99CeZ-9ithi1dlOZY&language=ko`)
+
+    // console.log('!~~~~~')
+    // console.log(localDetail.statusText);
+    // if(localDetail){
+    //   res.status(200).json(detail.data.result)
+    // }
+
+
+
+
+    res.status(200).json(detail.data.result)
+  }catch(error){
+    console.log('error!!')
+    console.log(error);
+    res.status(400)
+  }
+  
 }
 
 

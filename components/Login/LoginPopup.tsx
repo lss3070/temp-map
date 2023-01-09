@@ -10,7 +10,7 @@ const LoginPopup=()=>{
 
     const { register, handleSubmit, watch, formState: { errors } } = useForm();
 
-    const setToken = useTokenStore((state)=>state.setToken)
+    const [setToken,setUserInfo] = useTokenStore((state)=>[state.setToken,state.setUserInfo])
 
     const onSubmit = (data:any)=>console.log(data);
 
@@ -31,6 +31,7 @@ const LoginPopup=()=>{
             },{withCredentials:true})
 
             setToken(token!);
+            setUserInfo(res.data.userInfo)
             setLoginModal(false);
         })} 
 
