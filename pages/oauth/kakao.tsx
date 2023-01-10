@@ -11,7 +11,7 @@ const getToken = async (code: string | null) => {
         params: {
           grant_type: 'authorization_code',
           client_id: '299d875b014a255e5dbc247b300cf8d3',
-          REDIRECT_URI: ' http://localhost:3000/oauth/kakao',
+          REDIRECT_URI: `${window.origin}/oauth/kakao`,
           code: code
         },
       });

@@ -76,7 +76,7 @@ const RestaurantMain=({lat,lng}:IRestaurantListProps)=>{
                     position:item.geometry.location
                 }
             })
-            axios.post(`${process.env.NEXT_PUBLIC_FIREBASE_URL}/app/setRestaurant`,tempData).then((data)=>
+            axios.post(`${process.env.NEXT_PUBLIC_FIREBASE_URL}/setRestaurant`,tempData).then((data)=>
             {
                 console.log(data)
             })

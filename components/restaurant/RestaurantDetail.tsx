@@ -57,12 +57,19 @@ const RestaurantDetail=()=>{
             }
             )
 
-            fetch(`http://localhost:5001/temp-map-52a06/us-central1/app/restaurant?id=${selectMark.id}`)
+            fetch(`${process.env.NEXT_PUBLIC_FIREBASE_URL}/restaurant?id=${selectMark.id}`)
             .then(data=>data.json())
             .then(json=>{
-                if(json.like&&userInfo){
-                    const index= json.like.findIndex((item:string)=>item===userInfo.id);
-                    if(index>0)setHeart(true);
+                const {restaurant} = json
+                if(restaurant.like&&userInfo){
+                    const index= restaurant.like.findIndex((item:string)=>item===userInfo.id);
+                    if(index>-1){
+                        setHeart(true)
+                    }else{
+                        setHeart(false) 
+                    } 
+                }else{
+                    setHeart(false)
                 }
             })
             .catch(error=>
@@ -70,8 +77,9 @@ const RestaurantDetail=()=>{
         }
     },[selectMark])
     const heartClick=()=>{
-        axios.post(`http://localhost:5001/temp-map-52a06/us-central1/app/restaurant/like`,
+        axios.post(`${process.env.NEXT_PUBLIC_FIREBASE_URL}/restaurant/like`,
         {
+            restaurantId:selectMark?.id,
             userId:userInfo?.id,
             like:!heart
         })
