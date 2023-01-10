@@ -1,9 +1,11 @@
-import { faHouse, faLocationDot, faPeopleGroup, faPhone, faStar } from "@fortawesome/free-solid-svg-icons";
+import { faHeart, faHouse, faLocationDot, faPeopleGroup, faPhone, faStar } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import axios from "axios";
 import { motion } from "framer-motion";
 import Image from "next/image";
 import { ReactNode, useEffect, useState } from "react";
 import { useRoadStore } from "../../store/road.store";
+import { useTokenStore } from "../../store/token.store";
 import { TextLengthCut } from "../TextLengthCut";
 import { RestaurantRoadGuide } from "./RestaurantRoadGuide";
 
@@ -23,11 +25,15 @@ type TRestaurantDetail={
 const RestaurantDetail=()=>{
 
     const [restaurantDetail,setRestaurantDetail] =useState<TRestaurantDetail>()
+
+    const userInfo =useTokenStore((state)=>state.userInfo)
     const [
         selectMark,
     ]=useRoadStore((state)=>[
         state.selectMark,
     ]);
+
+    const [heart,setHeart]=useState<boolean>(false);
 
     useEffect(()=>{
         if(selectMark){
@@ -49,9 +55,36 @@ const RestaurantDetail=()=>{
                     openingHours:json.opening_hours,
                 })
             }
-               )
+            )
+
+            fetch(`${process.env.NEXT_PUBLIC_FIREBASE_URL}/restaurant?id=${selectMark.id}`)
+            .then(data=>data.json())
+            .then(json=>{
+                const {restaurant} = json
+                if(restaurant.like&&userInfo){
+                    const index= restaurant.like.findIndex((item:string)=>item===userInfo.id);
+                    if(index>-1){
+                        setHeart(true)
+                    }else{
+                        setHeart(false) 
+                    } 
+                }else{
+                    setHeart(false)
+                }
+            })
+            .catch(error=>
+                console.log(error))
         }
     },[selectMark])
+    const heartClick=()=>{
+        axios.post(`${process.env.NEXT_PUBLIC_FIREBASE_URL}/restaurant/like`,
+        {
+            restaurantId:selectMark?.id,
+            userId:userInfo?.id,
+            like:!heart
+        })
+        setHeart(!heart)
+    }
 
     const elementLoop=(loop:number,element:ReactNode)=>{
         const result=[]
@@ -95,13 +128,24 @@ const RestaurantDetail=()=>{
                         </div>
                     {/* title */}
                         <div className="grid items-center justify-center bg-white rounded-lg shadow-xl py-1">
-                            <div className="text-center text-blue-500 font-semibold">
-                                {restaurantDetail?.name!}
+                            <div className="text-center text-blue-500 font-semibold flex gap-2 justify-center">
+                                <span>{restaurantDetail?.name!}</span>
+                                {
+                                    userInfo&&(
+                                    <span>
+                                        <FontAwesomeIcon 
+                                        onClick={heartClick}
+                                        className={` border-red-500 cursor-pointer
+                                        ${heart?` text-red-500`:`text-black`}`} icon={faHeart}/>
+                                    </span>
+                                    )
+                                }
                             </div>
                             <div className="text-center">
                                 <FontAwesomeIcon icon={faStar} className=' text-yellow-400'/>
                                 {restaurantDetail.rating}/5 - 총 {restaurantDetail.userRatingTotla}명 평가
                             </div>
+                           
                         </div>
                     {/* 주소&전화번호 */}
                         <div className="bg-white rounded-lg shadow-xl p-2">

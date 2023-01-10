@@ -1,9 +1,20 @@
 import create from 'zustand'
 
-interface ITokenStoreProps{
-    token?:string;
-    setToken:(token:string)=>void;
+interface IUser{
+    id:string,
+    email:string;
+    name:string;
 }
-export const useTokenStore=create<ITokenStoreProps>((set)=>({
+
+interface IUserStoreProps{
+    token?:string;
+    userInfo?:IUser;
+    setToken:(token:string)=>void;
+    initToken:()=>void;
+    setUserInfo:(userInfo:IUser)=>void;
+}
+export const useTokenStore=create<IUserStoreProps>((set)=>({
     setToken:(token)=>set((state)=>({token})),
+    initToken:()=>set((state)=>({token:undefined})),
+    setUserInfo:(userInfo)=>set((state)=>({userInfo}))
 }));
