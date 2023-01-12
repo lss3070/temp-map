@@ -18,6 +18,7 @@ import dynamic from 'next/dynamic'
 
 import { ModalBackGround } from '../components/Common/ModalBackground'
 import { LoginPopup } from '../components/Login/LoginPopup'
+import { RestaurantReview } from '../components/restaurant/RestaurantReviewModal'
 
 export default function Home() {
 
@@ -41,6 +42,7 @@ export default function Home() {
       <PositionChange/>
       <PostModal/>
       <LoginPopup/>
+      <RestaurantReview/>
       {/* <PostModal/> */}
       {
             onRoad&&(
