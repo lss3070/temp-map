@@ -18,7 +18,7 @@ import dynamic from 'next/dynamic'
 
 import { ModalBackGround } from '../components/Common/ModalBackground'
 import { LoginPopup } from '../components/Login/LoginPopup'
-import { RestaurantReview } from '../components/restaurant/RestaurantReviewModal'
+import { RestaurantReview } from '../components/restaurant/restaurantInput/RestaurantReviewModal'
 
 export default function Home() {
 

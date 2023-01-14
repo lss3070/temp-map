@@ -27,7 +27,7 @@ const RestaurantDetail=()=>{
 
     const [restaurantDetail,setRestaurantDetail] =useState<TRestaurantDetail>()
 
-    const setReviewModal = useReviewStore((state)=>state.setReviewModal)
+    const [setReviewModal,setId] = useReviewStore((state)=>[state.setReviewModal,state.setId])
 
     const userInfo =useTokenStore((state)=>state.userInfo)
     const [
@@ -210,7 +210,12 @@ const RestaurantDetail=()=>{
                             userInfo&&(
                                 <div className="w-full h-10 shadow-xl bg-white rounded-lg cursor-pointer
                                 items-center justify-center flex"
-                                onClick={()=>setReviewModal(true)}>
+                                onClick={()=>{
+                                    setReviewModal(true)
+                                    setId(selectMark?.id!)
+                                }
+                                
+                                }>
                                     리뷰 작성
                                 </div>
                             )
