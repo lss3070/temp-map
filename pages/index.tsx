@@ -19,6 +19,9 @@ import dynamic from 'next/dynamic'
 import { ModalBackGround } from '../components/Common/ModalBackground'
 import { LoginPopup } from '../components/Login/LoginPopup'
 import { RestaurantReview } from '../components/restaurant/restaurantInput/RestaurantReviewModal'
+import { useTokenStore } from '../store/token.store'
+import { useEffect } from 'react'
+import axios from 'axios'
 
 export default function Home() {
 
@@ -30,7 +33,24 @@ export default function Home() {
     state.selectMark,
     state.setSelectMark,state.setRoad]);
 
-    
+    const [setToken,setUserInfo] = useTokenStore((state)=>[state.setToken,state.setUserInfo])
+
+    useEffect(()=>{
+      const token = localStorage.getItem('token');
+
+
+      axios.post(`${process.env.NEXT_PUBLIC_FIREBASE_URL}/tokenLogin`,
+        {
+          token:token
+        },{withCredentials:true}
+      ).then((res)=>res.data).then((data)=>{
+        localStorage.setItem('token',data.token)
+            setToken(token!);
+            setUserInfo(data.userInfo)
+      }).catch(error=>console.log(error))
+    },[])
+
+ 
   return (
     <div className='w-full h-full'>
       {/* <NaverMap/> */}

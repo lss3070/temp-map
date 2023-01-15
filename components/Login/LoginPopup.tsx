@@ -20,16 +20,16 @@ const LoginPopup=()=>{
             'kakao로그인','popup')
 
         popup?.addEventListener('beforeunload',async()=>{
-            const token= localStorage.getItem('token');
+            const token= localStorage.getItem('kakaoToken');
 
-            console.log(token)
             document.cookie=`token=${token}`
             
             const res = await axios.post('http://127.0.0.1:5001/temp-map-52a06/us-central1/app/kakaoLogin',
             {
                 token:token
             },{withCredentials:true})
-
+          
+            localStorage.setItem('token',res.data.token)
             setToken(token!);
             setUserInfo(res.data.userInfo)
             setLoginModal(false);

@@ -27,12 +27,10 @@ const KaKao=()=>{
         const code = new URL(window.location.href).searchParams.get('code');
 
         const accesstoken= getToken(code);
-        console.log('accesstoken');
-        console.log(accesstoken);
         accesstoken.then((token)=>{
 
           if(token){
-            localStorage.setItem('token',token)
+            localStorage.setItem('kakaoToken',token)
             window.close();
           }
         }).catch(error=>console.log(error))
