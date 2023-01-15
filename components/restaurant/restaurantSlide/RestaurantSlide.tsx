@@ -172,7 +172,8 @@ const RestuarantSlide=({data,randomKey,setRandomKey,onRestaurantView,onSpin}:IRe
                                 style={{position:'relative'}}>
                                     <Image
                                     fill
-                                    // sizes="(min-width: 300px) (min-height: 200px)"
+                                    
+                                    // sizes="(min-width: 270px) (min-height: 180px)"
                                     src={restaurant.photos?
                                         restaurant.photos
                                         :'/assets/noImage.png'}

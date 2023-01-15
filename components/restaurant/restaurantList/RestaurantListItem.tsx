@@ -15,7 +15,7 @@ const RestaurantListItem=({placeId,name,photos}:IRestaurantListItemProps)=>{
         '>
             <div className="w-full h-[200px]" style={{position:'relative'}}>
                 <Image
-                layout="fill"
+                fill
                 src={photos?.length>0?
                     `https://maps.googleapis.com/maps/api/place/photo?maxwidth=400&photo_reference=${photos[0].photo_reference}&key=AIzaSyD7hySl2ct4VunK1C99CeZ-9ithi1dlOZY`
                     :'/assets/noImage.png'}

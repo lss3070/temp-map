@@ -4,6 +4,7 @@ import axios from "axios";
 import { motion } from "framer-motion";
 import Image from "next/image";
 import { ReactNode, useEffect, useState } from "react";
+import { useReviewStore } from "../../store/review.store";
 import { useRoadStore } from "../../store/road.store";
 import { useTokenStore } from "../../store/token.store";
 import { TextLengthCut } from "../TextLengthCut";
@@ -25,6 +26,8 @@ type TRestaurantDetail={
 const RestaurantDetail=()=>{
 
     const [restaurantDetail,setRestaurantDetail] =useState<TRestaurantDetail>()
+
+    const [setReviewModal,setId] = useReviewStore((state)=>[state.setReviewModal,state.setId])
 
     const userInfo =useTokenStore((state)=>state.userInfo)
     const [
@@ -113,7 +116,8 @@ const RestaurantDetail=()=>{
               ease: [0, 0.71, 0.2, 1.01]
             },
           }}
-        className="h-full w-[320px] bg-gray-400 left-[250px] top-0 absolute z-[9]  grid gap-2 px-2 overflow-scroll items-center overflow-x-hidden">
+        className="h-full w-[320px] bg-gray-400 left-[250px] top-0 absolute z-[9]  
+        grid gap-2 px-2 overflow-scroll items-center overflow-x-hidden mx-1">
             {
                 restaurantDetail&&(
                     <>
@@ -200,6 +204,22 @@ const RestaurantDetail=()=>{
                             </div>
                             )}
                         </div>
+
+                        {/* 리뷰 작성*/}
+                        {
+                            userInfo&&(
+                                <div className="w-full h-10 shadow-xl bg-white rounded-lg cursor-pointer
+                                items-center justify-center flex"
+                                onClick={()=>{
+                                    setReviewModal(true)
+                                    setId(selectMark?.id!)
+                                }
+                                
+                                }>
+                                    리뷰 작성
+                                </div>
+                            )
+                        }
                     </>
                 )
             }
