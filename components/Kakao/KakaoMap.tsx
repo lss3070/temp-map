@@ -1,6 +1,5 @@
 'use client'
 
-import axios from "axios";
 import { useEffect, useState } from "react";
 import useGeolocation from "../../hooks/useGeolocation";
 // import Map from "./map";

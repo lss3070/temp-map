@@ -22,6 +22,7 @@ import { RestaurantReview } from '../components/restaurant/restaurantInput/Resta
 import { useTokenStore } from '../store/token.store'
 import { useEffect } from 'react'
 import axios from 'axios'
+import { useMutation } from 'react-query'
 
 export default function Home() {
 
@@ -35,9 +36,19 @@ export default function Home() {
 
     const [setToken,setUserInfo] = useTokenStore((state)=>[state.setToken,state.setUserInfo])
 
+    const token = localStorage.getItem('token');
+
+
+  const tokenLogin = async()=>{
+    const {data} = await axios.post(`${process.env.NEXT_PUBLIC_FIREBASE_URL}/tokenLogin`,
+    {
+      token:token
+    })
+  }
+  const {mutate,isLoading,isError,error,isSuccess} = useMutation(tokenLogin)
+
     useEffect(()=>{
       const token = localStorage.getItem('token');
-
 
       axios.post(`${process.env.NEXT_PUBLIC_FIREBASE_URL}/tokenLogin`,
         {
